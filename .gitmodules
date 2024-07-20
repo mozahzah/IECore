@@ -1,0 +1,6 @@
+[submodule "imgui"]
+	path = imgui
+	url = https://github.com/mozahzah/imgui.git
+[submodule "stb"]
+	path = stb
+	url = https://github.com/nothings/stb.git
