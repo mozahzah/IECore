@@ -199,33 +199,23 @@ IEResult IERenderer_Vulkan::Initialize()
         if (m_AppWindow)
         {
             PostWindowCreated();
-            uint32_t RequiredInstanceExtensionCount = 0;
-            if (const char** GlfwExtensions = glfwGetRequiredInstanceExtensions(&RequiredInstanceExtensionCount))
+            if (InitializeVulkan())
             {
-                std::vector<const char*> RequiredInstanceExtensionNames(RequiredInstanceExtensionCount);
-                for (int i = 0; i < RequiredInstanceExtensionCount; i++)
+                if (glfwCreateWindowSurface(m_VkInstance, m_AppWindow, m_VkAllocationCallback, &m_AppWindowVulkanData.Surface) == VkResult::VK_SUCCESS)
                 {
-                    RequiredInstanceExtensionNames[i] = GlfwExtensions[i];
-                }
+                    glfwGetFramebufferSize(m_AppWindow, &m_DefaultAppWindowWidth, &m_DefaultAppWindowHeight);
 
-                if (InitializeVulkan(RequiredInstanceExtensionNames))
-                {
-                    if (glfwCreateWindowSurface(m_VkInstance, m_AppWindow, m_VkAllocationCallback, &m_AppWindowVulkanData.Surface) == VkResult::VK_SUCCESS)
+                    VkBool32 PhysicalDeviceSurfaceSupport = false;
+                    vkGetPhysicalDeviceSurfaceSupportKHR(m_VkPhysicalDevice, m_QueueFamilyIndex, m_AppWindowVulkanData.Surface, &PhysicalDeviceSurfaceSupport);
+                    if (PhysicalDeviceSurfaceSupport == VK_TRUE)
                     {
-                        glfwGetFramebufferSize(m_AppWindow, &m_DefaultAppWindowWidth, &m_DefaultAppWindowHeight);
-
-                        VkBool32 PhysicalDeviceSurfaceSupport = false;
-                        vkGetPhysicalDeviceSurfaceSupportKHR(m_VkPhysicalDevice, m_QueueFamilyIndex, m_AppWindowVulkanData.Surface, &PhysicalDeviceSurfaceSupport);
-                        if (PhysicalDeviceSurfaceSupport == VK_TRUE)
-                        {
-                            Result.Type = IEResult::Type::Success;
-                            Result.Message = "Successfully initialized IERenderer";
-                        }
-                        else
-                        {
-                            Result.Type = IEResult::Type::NotSupported;
-                            Result.Message = "Physical device is not supported";
-                        }
+                        Result.Type = IEResult::Type::Success;
+                        Result.Message = "Successfully initialized IERenderer";
+                    }
+                    else
+                    {
+                        Result.Type = IEResult::Type::NotSupported;
+                        Result.Message = "Physical device is not supported";
                     }
                 }
             }
@@ -238,17 +228,19 @@ IEResult IERenderer_Vulkan::PostImGuiContextCreated()
 {
     IEResult Result(IEResult::Type::Fail, "Failed to initialize ImGuiContext with Vulkan");
 
-    const VkFormat RequestSurfaceImageFormats[4] = {  VK_FORMAT_B8G8R8A8_UNORM,
-                                                      VK_FORMAT_R8G8B8A8_UNORM,
-                                                      VK_FORMAT_B8G8R8_UNORM,
-                                                      VK_FORMAT_R8G8B8_UNORM };
+    const int VkFormatNum = 4;
+    const VkFormat RequestSurfaceImageFormats[VkFormatNum] = {  VK_FORMAT_B8G8R8A8_UNORM,
+                                                                VK_FORMAT_R8G8B8A8_UNORM,
+                                                                VK_FORMAT_B8G8R8_UNORM,
+                                                                VK_FORMAT_R8G8B8_UNORM };
 
     const VkColorSpaceKHR RequestSurfaceColorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR;
     m_AppWindowVulkanData.SurfaceFormat = ImGui_ImplVulkanH_SelectSurfaceFormat(m_VkPhysicalDevice, m_AppWindowVulkanData.Surface,
-        RequestSurfaceImageFormats, std::size(RequestSurfaceImageFormats), RequestSurfaceColorSpace);
+        RequestSurfaceImageFormats, VkFormatNum, RequestSurfaceColorSpace);
 
-    VkPresentModeKHR PresentModeKHR[1] = { VK_PRESENT_MODE_FIFO_KHR };
-    m_AppWindowVulkanData.PresentMode = ImGui_ImplVulkanH_SelectPresentMode(m_VkPhysicalDevice, m_AppWindowVulkanData.Surface, PresentModeKHR, std::size(PresentModeKHR));
+    const int PresentModeKHRNum = 1;
+    VkPresentModeKHR PresentModeKHR[PresentModeKHRNum] = { VK_PRESENT_MODE_FIFO_KHR };
+    m_AppWindowVulkanData.PresentMode = ImGui_ImplVulkanH_SelectPresentMode(m_VkPhysicalDevice, m_AppWindowVulkanData.Surface, PresentModeKHR, PresentModeKHRNum);
 
     ImGui_ImplVulkanH_CreateOrResizeWindow(m_VkInstance, m_VkPhysicalDevice, m_VkDevice, &m_AppWindowVulkanData, m_QueueFamilyIndex, m_VkAllocationCallback,
         m_DefaultAppWindowWidth, m_DefaultAppWindowHeight, m_MinImageCount);
@@ -439,7 +431,7 @@ void IERenderer_Vulkan::GlfwErrorCallbackFunc(int ErrorCode, const char* Descrip
     }
 }
 
-IEResult IERenderer_Vulkan::InitializeVulkan(const std::vector<const char*>& RequiredInstanceExtensionNames)
+IEResult IERenderer_Vulkan::InitializeVulkan()
 {
     IEResult Result(IEResult::Type::Fail, "Failed to initialize Vulkan");
 
@@ -449,7 +441,7 @@ IEResult IERenderer_Vulkan::InitializeVulkan(const std::vector<const char*>& Req
     if (vkEnumerateInstanceExtensionProperties(nullptr, &InstanceExtensionCount, InstanceExtensionProperties.data()) == VkResult::VK_SUCCESS)
     {
         std::vector<const char*> InstanceExtensionNames(InstanceExtensionCount);
-        for (int i = 0; i < InstanceExtensionCount; i++)
+        for (uint32_t i = 0; i < InstanceExtensionCount; i++)
         {
             InstanceExtensionNames[i] = InstanceExtensionProperties[i].extensionName;
         }
@@ -495,7 +487,7 @@ IEResult IERenderer_Vulkan::InitializeVulkan(const std::vector<const char*>& Req
                     vkEnumerateDeviceExtensionProperties(m_VkPhysicalDevice, nullptr, &DeviceExtensionCount, DeviceExtensionProperties.data());
 
                     std::vector<const char*> DeviceExtensionNames(DeviceExtensionCount);
-                    for (int i = 0; i < DeviceExtensionCount; i++)
+                    for (uint32_t i = 0; i < DeviceExtensionCount; i++)
                     {
                         DeviceExtensionNames[i] = DeviceExtensionProperties[i].extensionName;
                     }

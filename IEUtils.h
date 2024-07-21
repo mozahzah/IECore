@@ -32,12 +32,17 @@ namespace IEUtils
     {
         static std::string Cast(const wchar_t* String) 
         {
+            std::string ReturnString;
             std::mbstate_t State = std::mbstate_t();
-            size_t Size = std::wcsrtombs(nullptr, &String, 0, &State);
-            std::vector<char> Buffer(Size + 1);
-            std::wcsrtombs(Buffer.data(), &String, Size, &State);
-            Buffer[Size] = '\0';
-            return std::string(Buffer.data());
+            size_t Size = 0;
+            if (wcsrtombs_s(&Size, nullptr, 0, &String, static_cast<size_t>(-1), &State) == 0)
+            {   
+                std::vector<char> Buffer(Size + 1);
+                wcsrtombs_s(&Size, Buffer.data(), Buffer.size(), &String, static_cast<size_t>(-1), &State);
+                Buffer[Size] = '\0';
+                ReturnString = std::string(Buffer.data());
+            }
+            return ReturnString;
         }
     };
 
@@ -46,12 +51,17 @@ namespace IEUtils
     {
         static std::wstring Cast(const char* String)
         {
+            std::wstring ReturnString;
             std::mbstate_t State = std::mbstate_t();
-            size_t Size = std::mbsrtowcs(nullptr, &String, 0, &State);
-            std::vector<wchar_t> Buffer(Size + 1);
-            std::mbsrtowcs(Buffer.data(), &String, Size, &State);
-            Buffer[Size] = L'\0';
-            return std::wstring(Buffer.data());
+            size_t Size = 0;
+            if (mbsrtowcs_s(&Size, nullptr, 0, &String, static_cast<size_t>(-1), &State) == 0)
+            {   
+                std::vector<wchar_t> Buffer(Size + 1);
+                mbsrtowcs_s(&Size, Buffer.data(), Buffer.size(), &String, static_cast<size_t>(-1), &State);
+                Buffer[Size] = L'\0';
+                ReturnString = std::wstring(Buffer.data());
+            }
+            return ReturnString;
         }
     };
 

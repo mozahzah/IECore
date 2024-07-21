@@ -75,7 +75,6 @@ namespace ImGui
     
     void WindowPositionedText(float XMultiplier, float YMultiplier, const char* Fmt, ...)
     {
-        char Buffer[256];
         va_list Args;
         va_start(Args, Fmt);
         WindowPositionedTextV(XMultiplier, YMultiplier, Fmt, Args);
@@ -164,7 +163,7 @@ namespace ImGui
             ImGui::Text("%s", RootFileFinderSearchPath.string().c_str());
             ImGui::PopStyleVar();
 
-            DrawFileFinderTree(RootFileFinderSearchPath, 3, SelectedFile, DrawFileFinderTree);
+            DrawFileFinderTree(RootFileFinderSearchPath, Depth, SelectedFile, DrawFileFinderTree);
 
             ImGui::EndPopup();
         }
@@ -401,8 +400,8 @@ namespace ImGui
         {
             bool bToReturn = false;
             ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 0.0f, 0.0f, 0.25f));
-            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 0.0f, 0.0f, 0.4));
-            ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 0.0f, 0.0f, 0.4));
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 0.0f, 0.0f, 0.4f));
+            ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 0.0f, 0.0f, 0.4f));
             bToReturn = ImGui::Button(Label);
             ImGui::PopStyleColor();
             ImGui::PopStyleColor();

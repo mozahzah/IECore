@@ -95,7 +95,7 @@ private:
     static void CheckVkResultFunc(VkResult err);
 
 private:
-    IEResult InitializeVulkan(const std::vector<const char*>& RequiredInstanceExtensionNames);
+    IEResult InitializeVulkan();
     IEResult InitializeInstancePhysicalDevice();
     void DinitializeVulkan();
 
