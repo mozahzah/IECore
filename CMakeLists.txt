@@ -31,6 +31,9 @@ elseif(APPLE)
     target_link_libraries(IECore PUBLIC "-framework UserNotifications")
 endif()
 
+add_custom_command(TARGET IECore POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/Resources" "${CMAKE_BINARY_DIR}/$<CONFIG>/Resources")
+
 set(IECORE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE STRING "IECore Directory")
 message("IECORE_DIR is cached as ${IECORE_DIR}")
 

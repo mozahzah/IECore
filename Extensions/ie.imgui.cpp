@@ -191,16 +191,12 @@ namespace ImGui
         {
             ImGuiIO& IO = ImGui::GetIO();
         
-            const std::filesystem::path AppDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "IEMidi");
+            const std::filesystem::path ResourcesDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "Resources");
+            IO.IniFilename = nullptr;
 
-            const std::filesystem::path ImGuiIniFilePath = AppDirectory / "Settings/IEMidi_ImGui.ini";
-            const std::string ImGuiIniFilePathString = IEUtils::StringCast<char>(ImGuiIniFilePath.c_str());
-            ImGui::LoadIniSettingsFromDisk(ImGuiIniFilePathString.c_str());
-            IO.IniFilename = ImGuiIniFilePathString.c_str();
-
-            const std::filesystem::path SpaceGroteskFontPath = AppDirectory / "Resources/Fonts/Space_Grotesk/static/SpaceGrotesk-Medium.ttf";
-            const std::filesystem::path SpaceGroteskSemiBoldFontPath = AppDirectory / "Resources/Fonts/Space_Grotesk/static/SpaceGrotesk-SemiBold.ttf";
-            const std::filesystem::path SpaceGroteskBoldFontPath = AppDirectory / "Resources/Fonts/Space_Grotesk/static/SpaceGrotesk-Bold.ttf";
+            const std::filesystem::path SpaceGroteskFontPath = ResourcesDirectory / "Fonts/Space_Grotesk/static/SpaceGrotesk-Medium.ttf";
+            const std::filesystem::path SpaceGroteskSemiBoldFontPath = ResourcesDirectory / "Fonts/Space_Grotesk/static/SpaceGrotesk-SemiBold.ttf";
+            const std::filesystem::path SpaceGroteskBoldFontPath = ResourcesDirectory / "Fonts/Space_Grotesk/static/SpaceGrotesk-Bold.ttf";
 
             if (std::filesystem::exists(SpaceGroteskFontPath) && !DefaultFontIndex.has_value())
             {

@@ -156,15 +156,15 @@ void IERenderer::BroadcastOnWindowRestored() const
 
 std::string IERenderer::GetIELogoPathString() const
 {
-    const std::filesystem::path AppDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "IEMidi");
-    const std::filesystem::path IELogoPath = AppDirectory / "Resources/Logos/IE.png";
+    const std::filesystem::path ResourcesDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "Resources");
+    const std::filesystem::path IELogoPath = ResourcesDirectory / "Logos/IE.png";
     return IELogoPath.string();
 }
 
 std::string IERenderer::GetIEIconPathString() const
 {
-    const std::filesystem::path AppDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "IEMidi");
-    const std::filesystem::path IELogoPath = AppDirectory / "Resources/Logos/IEIcon.png";
+    const std::filesystem::path ResourcesDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "Resources");
+    const std::filesystem::path IELogoPath = ResourcesDirectory / "Logos/IEIcon.png";
     return IELogoPath.string();
 }
 
