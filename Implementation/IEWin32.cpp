@@ -1,6 +1,6 @@
 // Copyright © 2024 mozahzah (Incus Entertainment). All rights reserved.
 
-#include "IECore/IERenderer.h"
+#include "IERenderer.h"
 
 #if defined (_WIN32)
 

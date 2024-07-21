@@ -1,6 +1,6 @@
 // Copyright © 2024 mozahzah (Incus Entertainment). All rights reserved.
 
-#include "IECore/IEUtils.h"
+#include "IEUtils.h"
 
 namespace IEUtils
 {

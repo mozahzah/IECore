@@ -1,6 +1,6 @@
-[submodule "imgui"]
-	path = imgui
+[submodule "ThirdParty/imgui"]
+	path = ThirdParty/imgui
 	url = https://github.com/mozahzah/imgui.git
-[submodule "stb"]
-	path = stb
+[submodule "ThirdParty/stb"]
+	path = ThirdParty/stb
 	url = https://github.com/nothings/stb.git
