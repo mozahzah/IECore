@@ -13,3 +13,6 @@ The library includes an abstracted renderer class, robust logging and assertion 
 ## Third-Party Libraries Used
 - [Dear ImGui](https://github.com/ocornut/imgui)
 - [stb](https://github.com/nothings/stb)
+
+## License
+This project is licensed under the [GPL 2.0 License](./LICENSE).
