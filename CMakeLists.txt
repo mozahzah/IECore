@@ -32,7 +32,7 @@ elseif(APPLE)
 endif()
 
 add_custom_command(TARGET IECore POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/Resources" "${CMAKE_BINARY_DIR}/$<CONFIG>/Resources")
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/Resources" "${CMAKE_BINARY_DIR}/Resources")
 
 set(IECORE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE STRING "IECore Directory")
 message("IECORE_DIR is cached as ${IECORE_DIR}")
