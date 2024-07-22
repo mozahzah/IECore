@@ -67,8 +67,8 @@ namespace ImGui
         float TextPositionX = (ImGui::GetWindowSize().x + ImGui::GetStyle().WindowPadding.x * 2.0f - TextSize.x - ImGui::GetFontSize()) * std::clamp(XMultiplier, 0.0f, 1.0f);
         float TextPositionY = (ImGui::GetWindowSize().y - ImGui::GetStyle().WindowPadding.y * 2.0f - TextSize.y) * std::clamp(YMultiplier, 0.0f, 1.0f);
 
-        TextPositionX = std::fabs(TextPositionX - 0.0f) <= std::numeric_limits<float>::epsilon() ? ImGui::GetCursorPosX() : TextPositionX;
-        TextPositionY = std::fabs(TextPositionY - 0.0f) <= std::numeric_limits<float>::epsilon() ? ImGui::GetCursorPosY() : TextPositionY;
+        TextPositionX = std::fabs(TextPositionX) <= std::numeric_limits<float>::epsilon() ? ImGui::GetCursorPosX() : TextPositionX;
+        TextPositionY = std::fabs(TextPositionY) <= std::numeric_limits<float>::epsilon() ? ImGui::GetCursorPosY() : TextPositionY;
 
         ImGui::SetSmartCursorPos(ImVec2(TextPositionX, TextPositionY));
         ImGui::Text("%s", Buffer);
