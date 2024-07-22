@@ -1,6 +1,6 @@
 # <img src="Resources/Logos/IEIcon.png" alt="IE Logo" width="26"> IECore
 
-**IECore** is a open-source library designed for Windows and macOS applications that leverages ImGui as its user interface.  
+**IECore** is a open-source library designed for Windows and macOS applications that leverages ImGui as its user interface with Vulkan/GLFW3 as rendering backends.  
 The library includes an abstracted renderer class, robust logging and assertion features, as well as useful utilities and ImGui extension logic.  
 
 ## Features
