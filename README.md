@@ -9,6 +9,14 @@ The library includes an abstracted renderer class, robust logging and assertion 
 - **Utilities**: Provides various helpful tools and functions for application development.
 - **ImGui Extension Logic**: Enhances ImGui with additional functionality and customizations.
 
+## ImGui Extensions
+The ImGui namespace is extended with several useful functions to enhance the flexibility and ease of use within the ImGui framework.  
+These extensions provide enhanced cursor positioning, text rendering capabilities, file finding utilities, and the ability to clear window states.  
+### Highlighted features
+- **SetSmartCursorPosRelative(const ImVec2& XYMultiplier)**: Sets the cursor position relative to the windows size. The position is a percentage of the window width and height respectively.
+- **CenteredText(const char\* Fmt, ...)**: Renders text centered horizontally within the current window.
+- **FileFinder(const char\* Label, int Depth, std::string& SelectedFile)**: Opens a file finder dialog that allows users to browse directories and select files. The file finder widget will automatically reset once the directory depth specified by the Depth parameter is reached. The function stores the path of the selected file in the SelectedFile parameter.
+
 ## Third-Party Libraries Used
 - [Dear ImGui](https://github.com/ocornut/imgui)
 - [stb](https://github.com/nothings/stb)
