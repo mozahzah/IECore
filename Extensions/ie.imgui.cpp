@@ -63,8 +63,9 @@ namespace ImGui
         char Buffer[256];
         vsnprintf(Buffer, sizeof(Buffer), Fmt, Args);
 
-        float TextPositionX = (ImGui::GetWindowSize().x + ImGui::GetStyle().WindowPadding.x * 2.0f - ImGui::CalcTextSize(Buffer).x) * std::clamp(XMultiplier, 0.0f, 1.0f);
-        float TextPositionY = (ImGui::GetWindowSize().y - ImGui::GetStyle().WindowPadding.y * 2.0f - ImGui::CalcTextSize(Buffer).y) * std::clamp(YMultiplier, 0.0f, 1.0f);
+        const ImVec2 TextSize = ImGui::CalcTextSize(Buffer);
+        float TextPositionX = (ImGui::GetWindowSize().x + ImGui::GetStyle().WindowPadding.x * 2.0f - TextSize.x - ImGui::GetFontSize()) * std::clamp(XMultiplier, 0.0f, 1.0f);
+        float TextPositionY = (ImGui::GetWindowSize().y - ImGui::GetStyle().WindowPadding.y * 2.0f - TextSize.y) * std::clamp(YMultiplier, 0.0f, 1.0f);
 
         TextPositionX = std::fabs(TextPositionX - 0.0f) <= std::numeric_limits<float>::epsilon() ? ImGui::GetCursorPosX() : TextPositionX;
         TextPositionY = std::fabs(TextPositionY - 0.0f) <= std::numeric_limits<float>::epsilon() ? ImGui::GetCursorPosY() : TextPositionY;
