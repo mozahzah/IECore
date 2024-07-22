@@ -1,6 +1,6 @@
 // Copyright © 2024 mozahzah (Incus Entertainment). All rights reserved.
 
-#import "IECore/IERenderer.h"
+#import "IERenderer.h"
 
 #if defined (__APPLE__)
 
