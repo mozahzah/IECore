@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
-// Copyright © 2024 mozahzah (Incus Entertainment). All rights reserved.
+// Copyright © 2024 Immortal Echoes. All rights reserved.
+// Author: mozahzah
 
 #include "ie.imgui.h"
 
@@ -15,7 +16,7 @@ namespace ImGui
 {
     void SetSmartCursorPosX(float X)
     {
-        if (X > ImGui::GetCursorPosX())
+        if (X >= ImGui::GetCursorPosX())
         {
             ImGui::SetCursorPosX(X);
         }
@@ -23,7 +24,7 @@ namespace ImGui
 
     void SetSmartCursorPosY(float Y)
     {
-        if (Y > ImGui::GetCursorPosY())
+        if (Y >= ImGui::GetCursorPosY())
         {
             ImGui::SetCursorPosY(Y);
         }
@@ -66,7 +67,7 @@ namespace ImGui
 
         const ImVec2 TextSize = ImGui::CalcTextSize(Buffer);
         float TextPositionX = (ImGui::GetWindowSize().x + ImGui::GetStyle().WindowPadding.x * 2.0f - TextSize.x - ImGui::GetFontSize()) * std::clamp(XMultiplier, 0.0f, 1.0f);
-        float TextPositionY = (ImGui::GetWindowSize().y - ImGui::GetStyle().WindowPadding.y * 2.0f - TextSize.y) * std::clamp(YMultiplier, 0.0f, 1.0f);
+        float TextPositionY = (ImGui::GetWindowSize().y + ImGui::GetStyle().WindowPadding.y * 2.0f) * std::clamp(YMultiplier, 0.0f, 1.0f);
 
         TextPositionX = std::fabs(TextPositionX) <= std::numeric_limits<float>::epsilon() ? ImGui::GetCursorPosX() : TextPositionX;
         TextPositionY = std::fabs(TextPositionY) <= std::numeric_limits<float>::epsilon() ? ImGui::GetCursorPosY() : TextPositionY;
@@ -188,166 +189,6 @@ namespace ImGui
 
     namespace IEStyle
     {
-        void StyleIE(ImGuiStyle* StyleDestination)
-        {
-            ImGuiIO& IO = ImGui::GetIO();
-        
-            const std::filesystem::path ResourcesDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "Resources");
-            IO.IniFilename = nullptr;
-
-            const std::filesystem::path SpaceGroteskFontPath = ResourcesDirectory / "Fonts/Space_Grotesk/static/SpaceGrotesk-Medium.ttf";
-            const std::filesystem::path SpaceGroteskSemiBoldFontPath = ResourcesDirectory / "Fonts/Space_Grotesk/static/SpaceGrotesk-SemiBold.ttf";
-            const std::filesystem::path SpaceGroteskBoldFontPath = ResourcesDirectory / "Fonts/Space_Grotesk/static/SpaceGrotesk-Bold.ttf";
-
-            if (std::filesystem::exists(SpaceGroteskFontPath) && !DefaultFontIndex.has_value())
-            {
-                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskFontPath.c_str()).c_str(), 28.0f);
-                DefaultFontIndex = IO.Fonts->Fonts.size() - 1;
-            }
-
-            if (std::filesystem::exists(SpaceGroteskSemiBoldFontPath) && !BoldFontIndex.has_value())
-            {
-                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskSemiBoldFontPath.c_str()).c_str(), 28.0f);
-                BoldFontIndex = IO.Fonts->Fonts.size() - 1;
-            }
-
-            if (std::filesystem::exists(SpaceGroteskSemiBoldFontPath) && !SubtitleFontIndex.has_value())
-            {
-                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskSemiBoldFontPath.c_str()).c_str(), 34.0f);
-                SubtitleFontIndex = IO.Fonts->Fonts.size() - 1;
-            }
-
-            if (std::filesystem::exists(SpaceGroteskBoldFontPath) && !TitleFontIndex.has_value())
-            {
-                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskBoldFontPath.c_str()).c_str(), 40.0f);
-                TitleFontIndex = IO.Fonts->Fonts.size() - 1;
-            }
-
-            IO.Fonts->Build();
-            IO.FontGlobalScale = 0.65f;
-
-            if (ImGuiStyle* const Style = StyleDestination ? StyleDestination : &ImGui::GetStyle())
-            {
-                /* Main */
-                Style->WindowPadding = ImVec2(10.0f, 10.0f);
-                Style->FramePadding = ImVec2(5.0f, 5.0f);
-                Style->ItemSpacing = ImVec2(10.0f, 5.0f);
-                Style->ItemInnerSpacing = ImVec2(10.0f, 5.0f);
-                Style->IndentSpacing = 15.0f;
-                Style->ScrollbarSize = 15.0f;
-                Style->GrabMinSize = 10.0f;
-
-                /* Borders */
-                Style->WindowBorderSize = 0.0f;
-                Style->ChildBorderSize = 0.0f;
-                Style->PopupBorderSize = 1.0f;
-                Style->FrameBorderSize = 0.0f;
-                Style->TabBorderSize = 0.0f;
-                Style->TabBarBorderSize = 0.0f;
-
-                /* Rounding */
-                Style->WindowRounding = 5.0f;
-                Style->ChildRounding = 5.0f;
-                Style->FrameRounding = 1.0f;
-                Style->PopupRounding = 1.0f;
-                Style->ScrollbarRounding = 12.0f;
-                Style->GrabRounding = 12.0f;
-                Style->TabRounding = 2.0f;
-
-                /* Tables */
-                Style->CellPadding = ImVec2(7.0f, 7.0f);
-                Style->TableAngledHeadersAngle = 35.0f;
-                Style->TableAngledHeadersTextAlign = ImVec2(0.5f, 0.0f);
-
-                /* Widgets */
-                Style->WindowTitleAlign = ImVec2(0.5f, 0.5f);
-                Style->WindowMenuButtonPosition = ImGuiDir_Left;
-                Style->ColorButtonPosition = ImGuiDir_Left;
-                Style->ButtonTextAlign = ImVec2(0.5f, 0.5f);
-                Style->SelectableTextAlign = ImVec2(0.5f, 0.5f);
-                Style->SeparatorTextBorderSize = 1.0f;
-                Style->SeparatorTextAlign = ImVec2(0.5f, 0.5f);
-                Style->SeparatorTextPadding = ImVec2(20.0f, 4.0f);
-
-                if (ImVec4* const Colors = Style->Colors)
-                {
-                    Colors[ImGuiCol_Text] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
-                    Colors[ImGuiCol_TextDisabled] = ImVec4(0.50f, 0.50f, 0.50f, 1.00f);
-
-                    Colors[ImGuiCol_WindowBg] = ImVec4(0.061f, 0.061f, 0.061f, 1.000f);
-                    Colors[ImGuiCol_ChildBg] = ImVec4(0.000f, 0.000f, 0.000f, 0.000f);
-                    Colors[ImGuiCol_PopupBg] = ImVec4(0.061f, 0.061f, 0.061f, 1.000f);
-
-                    Colors[ImGuiCol_Border] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
-                    Colors[ImGuiCol_BorderShadow] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
-
-                    Colors[ImGuiCol_FrameBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.50f);
-                    Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.00f, 0.00f, 0.00f, 1.00f);
-                    Colors[ImGuiCol_FrameBgActive] = ImVec4(0.00f, 0.00f, 0.00f, 1.00f);
-
-                    Colors[ImGuiCol_TitleBg] = ImVec4(0.000f, 0.100f, 0.100f, 0.500f);
-                    Colors[ImGuiCol_TitleBgActive] = ImVec4(0.000f, 0.100f, 0.100f, 0.500f);
-                    Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.000f, 0.100f, 0.100f, 0.500f);
-
-                    Colors[ImGuiCol_MenuBarBg] = ImVec4(0.065f, 0.065f, 0.065f, 1.000f);
-
-                    Colors[ImGuiCol_ScrollbarBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
-                    Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.400f, 0.310f, 0.310f, 1.000f);
-                    Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.500f, 0.310f, 0.310f, 1.000f);
-                    Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.500f, 0.310f, 0.310f, 1.000f);
-
-                    Colors[ImGuiCol_CheckMark] = ImVec4(0.816f, 0.821f, 1.000f, 1.000f);
-                    Colors[ImGuiCol_SliderGrab] = ImVec4(0.816f, 0.821f, 1.000f, 1.000f);
-                    Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.700f, 0.821f, 1.000f, 1.000f);
-
-                    Colors[ImGuiCol_Button] = ImVec4(0.650f, 0.765f, 1.000f, 0.300f);
-                    Colors[ImGuiCol_ButtonHovered] = ImVec4(0.706f, 0.784f, 1.000f, 0.227f);
-                    Colors[ImGuiCol_ButtonActive] = ImVec4(0.706f, 0.784f, 1.000f, 0.227f);
-
-                    Colors[ImGuiCol_Header] = ImVec4(0.000f, 0.000f, 0.000f, 0.355f);
-                    Colors[ImGuiCol_HeaderHovered] = ImVec4(0.000f, 0.000f, 0.000f, 0.500f);
-                    Colors[ImGuiCol_HeaderActive] = ImVec4(0.000f, 0.000f, 0.000f, 0.500f);
-
-                    Colors[ImGuiCol_Separator] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
-                    Colors[ImGuiCol_SeparatorHovered] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
-                    Colors[ImGuiCol_SeparatorActive] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
-
-                    Colors[ImGuiCol_ResizeGrip] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
-                    Colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.67f, 0.67f, 0.67f, 1.00f);
-                    Colors[ImGuiCol_ResizeGripActive] = ImVec4(0.67f, 0.67f, 0.67f, 1.00f);
-
-                    Colors[ImGuiCol_TabHovered] = ImVec4(0.000f, 0.000f, 0.000f, 0.500f);
-                    Colors[ImGuiCol_Tab] = ImVec4(0.000f, 0.000f, 0.000f, 0.355f);
-                    Colors[ImGuiCol_TabSelected] = ImVec4(0.000f, 0.000f, 0.000f, 0.500f);
-                    Colors[ImGuiCol_TabSelectedOverline] = ImVec4(0.000f, 0.000f, 0.000f, 0.500f);
-                    Colors[ImGuiCol_TabDimmed] = ImVec4(0.000f, 0.000f, 0.000f, 0.355f);
-                    Colors[ImGuiCol_TabDimmedSelected] = ImVec4(0.000f, 0.000f, 0.000f, 0.500f);
-                    Colors[ImGuiCol_TabDimmedSelectedOverline] = ImVec4(0.000f, 0.000f, 0.000f, 0.500f);
-
-                    Colors[ImGuiCol_PlotLines] = ImVec4(0.61f, 0.61f, 0.61f, 1.00f);
-                    Colors[ImGuiCol_PlotLinesHovered] = ImVec4(1.00f, 0.43f, 0.35f, 1.00f);
-                    Colors[ImGuiCol_PlotHistogram] = ImVec4(0.90f, 0.70f, 0.00f, 1.00f);
-                    Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(1.00f, 0.60f, 0.00f, 1.00f);
-
-                    Colors[ImGuiCol_TableHeaderBg] = ImVec4(0.19f, 0.19f, 0.20f, 1.00f);
-                    Colors[ImGuiCol_TableBorderStrong] = ImVec4(0.31f, 0.31f, 0.35f, 1.00f);
-                    Colors[ImGuiCol_TableBorderLight] = ImVec4(0.23f, 0.23f, 0.25f, 1.00f);
-                    Colors[ImGuiCol_TableRowBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
-                    Colors[ImGuiCol_TableRowBgAlt] = ImVec4(1.00f, 1.00f, 1.00f, 0.06f);
-
-                    Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.26f, 0.59f, 0.98f, 0.35f);
-
-                    Colors[ImGuiCol_DragDropTarget] = ImVec4(1.00f, 1.00f, 0.00f, 0.90f);
-
-                    Colors[ImGuiCol_NavHighlight] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
-                    Colors[ImGuiCol_NavWindowingHighlight] = ImVec4(1.00f, 1.00f, 1.00f, 0.70f);
-                    Colors[ImGuiCol_NavWindowingDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.20f);
-
-                    Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
-                }
-            }
-        }
-
         ImFont* GetBoldFont()
         {
             ImGuiIO& IO = ImGui::GetIO();
@@ -401,9 +242,9 @@ namespace ImGui
         bool RedButton(const char* Label)
         {
             bool bToReturn = false;
-            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 0.0f, 0.0f, 0.25f));
-            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 0.0f, 0.0f, 0.4f));
-            ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 0.0f, 0.0f, 0.4f));
+            ImGui::PushStyleColor(ImGuiCol_Button, IEStyle::Colors::RedButtonColor);
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IEStyle::Colors::RedButtonHoveredColor);
+            ImGui::PushStyleColor(ImGuiCol_ButtonActive, IEStyle::Colors::RedButtonHoveredColor);
             bToReturn = ImGui::Button(Label);
             ImGui::PopStyleColor();
             ImGui::PopStyleColor();
@@ -414,14 +255,174 @@ namespace ImGui
         bool GreenButton(const char* Label)
         {
             bool bToReturn = false;
-            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 1.0f, 0.0f, 0.1f));
-            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 1.0f, 0.0f, 0.2f));
-            ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 1.0f, 0.0f, 0.2f));
+            ImGui::PushStyleColor(ImGuiCol_Button, IEStyle::Colors::GreenButtonColor);
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IEStyle::Colors::GreenButtonHoveredColor);
+            ImGui::PushStyleColor(ImGuiCol_ButtonActive, IEStyle::Colors::GreenButtonHoveredColor);
             bToReturn = ImGui::Button(Label);
             ImGui::PopStyleColor();
             ImGui::PopStyleColor();
             ImGui::PopStyleColor();
             return bToReturn;
+        }
+
+        void StyleIE(ImGuiStyle* StyleDestination)
+        {
+            ImGuiIO& IO = ImGui::GetIO();
+        
+            const std::filesystem::path ResourcesDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "Resources");
+            IO.IniFilename = nullptr;
+
+            const std::filesystem::path SpaceGroteskFontPath = ResourcesDirectory / "Fonts/Space_Grotesk/static/SpaceGrotesk-Medium.ttf";
+            const std::filesystem::path SpaceGroteskSemiBoldFontPath = ResourcesDirectory / "Fonts/Space_Grotesk/static/SpaceGrotesk-SemiBold.ttf";
+            const std::filesystem::path SpaceGroteskBoldFontPath = ResourcesDirectory / "Fonts/Space_Grotesk/static/SpaceGrotesk-Bold.ttf";
+
+            if (std::filesystem::exists(SpaceGroteskFontPath) && !DefaultFontIndex.has_value())
+            {
+                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskFontPath.c_str()).c_str(), DefaultTextSize);
+                DefaultFontIndex = IO.Fonts->Fonts.size() - 1;
+            }
+
+            if (std::filesystem::exists(SpaceGroteskSemiBoldFontPath) && !BoldFontIndex.has_value())
+            {
+                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskSemiBoldFontPath.c_str()).c_str(), DefaultTextSize);
+                BoldFontIndex = IO.Fonts->Fonts.size() - 1;
+            }
+
+            if (std::filesystem::exists(SpaceGroteskSemiBoldFontPath) && !SubtitleFontIndex.has_value())
+            {
+                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskSemiBoldFontPath.c_str()).c_str(), SubtitleTextSize);
+                SubtitleFontIndex = IO.Fonts->Fonts.size() - 1;
+            }
+
+            if (std::filesystem::exists(SpaceGroteskBoldFontPath) && !TitleFontIndex.has_value())
+            {
+                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskBoldFontPath.c_str()).c_str(), TitleTextSize);
+                TitleFontIndex = IO.Fonts->Fonts.size() - 1;
+            }
+
+            IO.Fonts->Build();
+            IO.FontGlobalScale = 1.0f;
+
+            if (ImGuiStyle* const Style = StyleDestination ? StyleDestination : &ImGui::GetStyle())
+            {
+                /* Main */
+                Style->WindowPadding = ImVec2(10.0f, 10.0f);
+                Style->FramePadding = ImVec2(5.0f, 5.0f);
+                Style->ItemSpacing = ImVec2(10.0f, 5.0f);
+                Style->ItemInnerSpacing = ImVec2(10.0f, 5.0f);
+                Style->IndentSpacing = 15.0f;
+                Style->ScrollbarSize = 15.0f;
+                Style->GrabMinSize = 10.0f;
+
+                /* Borders */
+                Style->WindowBorderSize = 0.0f;
+                Style->ChildBorderSize = 0.0f;
+                Style->PopupBorderSize = 1.0f;
+                Style->FrameBorderSize = 0.0f;
+                Style->TabBorderSize = 0.0f;
+                Style->TabBarBorderSize = 0.0f;
+
+                /* Rounding */
+                Style->WindowRounding = DefaultWindowRounding;
+                Style->ChildRounding = DefaultWindowRounding;
+                Style->FrameRounding = 1.0f;
+                Style->PopupRounding = 1.0f;
+                Style->ScrollbarRounding = 12.0f;
+                Style->GrabRounding = 12.0f;
+                Style->TabRounding = 2.0f;
+
+                /* Tables */
+                Style->CellPadding = ImVec2(7.0f, 7.0f);
+                Style->TableAngledHeadersAngle = 35.0f;
+                Style->TableAngledHeadersTextAlign = ImVec2(0.5f, 0.0f);
+
+                /* Widgets */
+                Style->WindowTitleAlign = ImVec2(0.5f, 0.5f);
+                Style->WindowMenuButtonPosition = ImGuiDir_Left;
+                Style->ColorButtonPosition = ImGuiDir_Left;
+                Style->ButtonTextAlign = ImVec2(0.5f, 0.5f);
+                Style->SelectableTextAlign = ImVec2(0.5f, 0.5f);
+                Style->SeparatorTextBorderSize = 1.0f;
+                Style->SeparatorTextAlign = ImVec2(0.5f, 0.5f);
+                Style->SeparatorTextPadding = ImVec2(20.0f, 4.0f);
+
+                if (ImVec4* const Colors = Style->Colors)
+                {
+                    Colors[ImGuiCol_Text] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+                    Colors[ImGuiCol_TextDisabled] = ImVec4(0.50f, 0.50f, 0.50f, 1.00f);
+
+                    Colors[ImGuiCol_WindowBg] = IEStyle::Colors::DefaultWindowBgColor;
+                    Colors[ImGuiCol_ChildBg] = IEStyle::Colors::DefaultWindowBgColor;
+                    Colors[ImGuiCol_PopupBg] = IEStyle::Colors::DefaultWindowBgColor;
+
+                    Colors[ImGuiCol_Border] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+                    Colors[ImGuiCol_BorderShadow] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+
+                    Colors[ImGuiCol_FrameBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.50f);
+                    Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.00f, 0.00f, 0.00f, 1.00f);
+                    Colors[ImGuiCol_FrameBgActive] = ImVec4(0.00f, 0.00f, 0.00f, 1.00f);
+
+                    Colors[ImGuiCol_TitleBg] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+                    Colors[ImGuiCol_TitleBgActive] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+                    Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+
+                    Colors[ImGuiCol_MenuBarBg] = ImVec4(0.065f, 0.065f, 0.065f, 1.000f);
+
+                    Colors[ImGuiCol_ScrollbarBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+                    Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.400f, 0.310f, 0.310f, 1.000f);
+                    Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.500f, 0.310f, 0.310f, 1.000f);
+                    Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.500f, 0.310f, 0.310f, 1.000f);
+
+                    Colors[ImGuiCol_CheckMark] = ImVec4(0.816f, 0.821f, 1.000f, 1.000f);
+                    Colors[ImGuiCol_SliderGrab] = ImVec4(0.816f, 0.821f, 1.000f, 1.000f);
+                    Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.700f, 0.821f, 1.000f, 1.000f);
+
+                    Colors[ImGuiCol_Button] = IEStyle::Colors::DefaultButtonColor;
+                    Colors[ImGuiCol_ButtonHovered] = IEStyle::Colors::DefaultButtonHoveredColor;
+                    Colors[ImGuiCol_ButtonActive] = IEStyle::Colors::DefaultButtonHoveredColor;
+
+                    Colors[ImGuiCol_Header] = ImVec4(0.000f, 0.000f, 0.000f, 0.355f);
+                    Colors[ImGuiCol_HeaderHovered] = ImVec4(0.000f, 0.000f, 0.000f, 0.500f);
+                    Colors[ImGuiCol_HeaderActive] = ImVec4(0.000f, 0.000f, 0.000f, 0.500f);
+
+                    Colors[ImGuiCol_Separator] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+                    Colors[ImGuiCol_SeparatorHovered] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+                    Colors[ImGuiCol_SeparatorActive] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+
+                    Colors[ImGuiCol_ResizeGrip] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+                    Colors[ImGuiCol_ResizeGripHovered] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+                    Colors[ImGuiCol_ResizeGripActive] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+
+                    Colors[ImGuiCol_TabHovered] = ImVec4(0.000f, 0.000f, 0.000f, 0.500f);
+                    Colors[ImGuiCol_Tab] = ImVec4(0.000f, 0.000f, 0.000f, 0.355f);
+                    Colors[ImGuiCol_TabSelected] = ImVec4(0.000f, 0.000f, 0.000f, 0.500f);
+                    Colors[ImGuiCol_TabSelectedOverline] = ImVec4(0.000f, 0.000f, 0.000f, 0.500f);
+                    Colors[ImGuiCol_TabDimmed] = ImVec4(0.000f, 0.000f, 0.000f, 0.355f);
+                    Colors[ImGuiCol_TabDimmedSelected] = ImVec4(0.000f, 0.000f, 0.000f, 0.500f);
+                    Colors[ImGuiCol_TabDimmedSelectedOverline] = ImVec4(0.000f, 0.000f, 0.000f, 0.500f);
+
+                    Colors[ImGuiCol_PlotLines] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+                    Colors[ImGuiCol_PlotLinesHovered] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+                    Colors[ImGuiCol_PlotHistogram] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+                    Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+
+                    Colors[ImGuiCol_TableHeaderBg] = ImVec4(0.19f, 0.19f, 0.20f, 1.00f);
+                    Colors[ImGuiCol_TableBorderStrong] = ImVec4(0.31f, 0.31f, 0.35f, 1.00f);
+                    Colors[ImGuiCol_TableBorderLight] = ImVec4(0.23f, 0.23f, 0.25f, 1.00f);
+                    Colors[ImGuiCol_TableRowBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+                    Colors[ImGuiCol_TableRowBgAlt] = ImVec4(1.00f, 1.00f, 1.00f, 0.06f);
+
+                    Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.26f, 0.59f, 0.98f, 0.35f);
+
+                    Colors[ImGuiCol_DragDropTarget] = ImVec4(1.00f, 1.00f, 0.00f, 0.90f);
+
+                    Colors[ImGuiCol_NavHighlight] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+                    Colors[ImGuiCol_NavWindowingHighlight] = ImVec4(1.00f, 1.00f, 1.00f, 0.70f);
+                    Colors[ImGuiCol_NavWindowingDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.20f);
+
+                    Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
+                }
+            }
         }
     }
 }
