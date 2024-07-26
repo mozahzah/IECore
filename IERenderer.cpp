@@ -22,7 +22,7 @@ void IERenderer::PostWindowCreated()
     /* Setup Window Icon */
     int IconWidth, IconHeight, IconChannels;
     
-    if (unsigned char* const IconPixelData = stbi_load(GetIEIconPathString().c_str(), &IconWidth, &IconHeight, &IconChannels, 4))
+    if (unsigned char* const IconPixelData = stbi_load(GetIELogoPathString().c_str(), &IconWidth, &IconHeight, &IconChannels, 4))
     {
         GLFWimage IconImage;
         IconImage.width = IconWidth;
@@ -159,14 +159,7 @@ void IERenderer::BroadcastOnWindowRestored() const
 std::string IERenderer::GetIELogoPathString() const
 {
     const std::filesystem::path ResourcesDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "Resources");
-    const std::filesystem::path IELogoPath = ResourcesDirectory / "Logos/IE.png";
-    return IELogoPath.string();
-}
-
-std::string IERenderer::GetIEIconPathString() const
-{
-    const std::filesystem::path ResourcesDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "Resources");
-    const std::filesystem::path IELogoPath = ResourcesDirectory / "Logos/IEIcon.png";
+    const std::filesystem::path IELogoPath = ResourcesDirectory / "IE-Brand-Kit/IE-Logo-No-Bg.png";
     return IELogoPath.string();
 }
 

@@ -57,7 +57,6 @@ public:
 public:
     GLFWwindow* GetGLFWwindow() const { return m_AppWindow; }
     std::string GetIELogoPathString() const;
-    std::string GetIEIconPathString() const;
     void DrawTelemetry() const;
 
 private:

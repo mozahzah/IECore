@@ -41,20 +41,25 @@ namespace ImGui
         namespace Colors
         {
             /* Window */
-            static constexpr ImVec4 DefaultWindowBgColor = ImVec4(0.061f, 0.061f, 0.061f, 1.00f);
-            static constexpr ImVec4 SideBarBgColor = ImVec4(0.0305f, 0.0305f, 0.0305f, 1.00f);
+            static constexpr ImVec4 DefaultWindowBgColor = ImVec4(0.044f, 0.045f, 0.054f, 1.00f);
+            static constexpr ImVec4 SideBarBgColor = ImVec4(0.025f, 0.026f, 0.037f, 1.00f);
             
             /* Text */
             static constexpr ImVec4 DefaultTextColor = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
-            static constexpr ImVec4 SecondaryTextColor = ImVec4(0.584f,0.686f,0.898f, 1.00f);
+            static constexpr ImVec4 SecondaryTextColor = ImVec4(0.584f, 0.686f, 0.898f, 1.00f);
 
             /* Button */
-            static constexpr ImVec4 DefaultButtonColor = ImVec4(0.4f, 0.515f, 0.750f, 0.20f);
-            static constexpr ImVec4 DefaultButtonHoveredColor = ImVec4(0.4f, 0.515f, 0.750f, 0.4f);
+            static constexpr ImVec4 DefaultButtonColor = ImVec4(0.584f, 0.686f, 0.898f, 0.2f);
+            static constexpr ImVec4 DefaultButtonHoveredColor = ImVec4(0.584f, 0.686f, 0.898f, 0.4f);
             static constexpr ImVec4 RedButtonColor = ImVec4(0.25f, 0.051f, 0.051f, 1.00f);
             static constexpr ImVec4 RedButtonHoveredColor = ImVec4(0.435f, 0.039f, 0.039f, 1.00f);
             static constexpr ImVec4 GreenButtonColor = ImVec4(0.054f, 0.157f, 0.054f, 1.00f);
             static constexpr ImVec4 GreenButtonHoveredColor = ImVec4(0.051f, 0.251f, 0.051f, 1.00f);
+
+            /* Other */
+            static constexpr ImVec4 FrameBgColor = ImVec4(1.0f, 1.0f, 1.0f, 0.025f);
+            static constexpr ImVec4 ScrollBarColor = ImVec4(0.400f, 0.310f, 0.310f, 1.00f);
+            static constexpr ImVec4 ScrollBarActiveColor = ImVec4(0.500f, 0.310f, 0.310f, 1.000f);
         }
 
         /* Fonts */
