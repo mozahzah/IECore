@@ -11,9 +11,9 @@ The library includes an abstracted renderer class, robust logging and assertion 
 
 ## ImGui Extensions
 The ImGui namespace is extended with several useful functions to enhance the flexibility and ease of use within the ImGui framework.  
-These extensions provide enhanced cursor positioning, text rendering capabilities, file finding utilities, and the ability to clear window states.  
+These extensions provide enhanced cursor positioning and additional useful widgets.  
 ### Highlighted features
-- **SetSmartCursorPosRelative(const ImVec2& XYMultiplier)**: Sets the cursor position relative to the windows size. The position is a percentage of the window width and height respectively.
+- **SmartCursorPositioning**: Sets the cursor position relative to the current window size by providing a scalar between 0 - 1.
 - **CenteredText(const char\* Fmt, ...)**: Renders text centered horizontally within the current window.
 - **FileFinder(const char\* Label, int Depth, std::string& SelectedFile)**: Opens a file finder dialog that allows users to browse directories and select files. The file finder widget will automatically reset once the directory depth specified by the Depth parameter is reached. The function stores the path of the selected file in the SelectedFile parameter.
 
@@ -22,4 +22,4 @@ These extensions provide enhanced cursor positioning, text rendering capabilitie
 - [stb](https://github.com/nothings/stb)
 
 ## License
-This project is licensed under the [GPL 2.0 License](./LICENSE).
+This work is licensed under the [SPDX-License-Identifier: GPL-2.0-only](./LICENSE).
