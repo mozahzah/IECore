@@ -25,5 +25,8 @@ These extensions provide enhanced cursor positioning and additional useful widge
 - [Dear ImGui](https://github.com/ocornut/imgui)
 - [stb](https://github.com/nothings/stb)
 
+## Contribution
+Contributors are welcomed to this open-source project. Any feedback or assistance, whether in coding, packaging, documentation, design, or testing, is greatly appreciated. 
+
 ## License
 This work is licensed under the [SPDX-License-Identifier: GPL-2.0-only](./LICENSE).
