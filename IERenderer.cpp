@@ -159,7 +159,7 @@ void IERenderer::BroadcastOnWindowRestored() const
 std::string IERenderer::GetIELogoPathString() const
 {
     const std::filesystem::path ResourcesDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "Resources");
-    const std::filesystem::path IELogoPath = ResourcesDirectory / "IE-Brand-Kit/IE-Logo-No-Bg.png";
+    const std::filesystem::path IELogoPath = ResourcesDirectory / "IE-Brand-Kit/IE-Logo-NoBg.png";
     return IELogoPath.string();
 }
 
