@@ -2,9 +2,7 @@
 // Copyright © 2024 Interactive Echoes. All rights reserved.
 // Author: mozahzah
 
-#include "IERenderer.h"
 #include "IECore.h"
-#include "Extensions/ie.imgui.h"
 
 class DemoApp
 {

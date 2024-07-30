@@ -7,7 +7,7 @@
 #include "imgui.h"
 #include "imgui_internal.h"
 
-#include "IECore.h"
+#include "IEUtils.h"
 
 namespace ImGui
 {

@@ -4,9 +4,6 @@
 
 #include "ie.imgui.h"
 
-#include "IECore.h"
-#include "IEUtils.h"
-
 static std::optional<uint8_t> DefaultFontIndex;
 static std::optional<uint8_t> BoldFontIndex;
 static std::optional<uint8_t> SubtitleFontIndex;

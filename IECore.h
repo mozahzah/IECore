@@ -7,3 +7,5 @@
 #include "IECoreMinimal.h"
 #include "IERenderer.h"
 #include "IEUtils.h"
+
+#include "Extensions/ie.imgui.h"
