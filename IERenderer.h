@@ -18,7 +18,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_vulkan.h"
 
-#include "IECore.h"
+#include "IEUtils.h"
 
 class IERenderer
 {

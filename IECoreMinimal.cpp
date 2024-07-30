@@ -2,7 +2,7 @@
 // Copyright © 2024 Interactive Echoes. All rights reserved.
 // Author: mozahzah
 
-#include "IECore.h"
+#include "IECoreMinimal.h"
 
 /* Logging and Assertions */
 

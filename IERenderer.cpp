@@ -7,8 +7,6 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-#include "IEUtils.h"
-
 #if defined (_WIN32)
 extern void InitializeIEWin32App(IERenderer* Renderer);
 extern void ShowRunningInBackgroundWin32Notification(const IERenderer* Renderer);
