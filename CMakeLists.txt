@@ -49,6 +49,11 @@ endif()
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/Resources" "${CMAKE_BINARY_DIR}/Resources")
 
+set_target_properties(${PROJECT_NAME} PROPERTIES 
+  RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+  LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+  ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
 install(TARGETS ${PROJECT_NAME}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -61,7 +66,13 @@ include(InstallRequiredSystemLibraries)
 get_target_property(DEPENDENCIES ${PROJECT_NAME} LINK_LIBRARIES)
 foreach(DEPENDENCY ${DEPENDENCIES})
   if(TARGET ${DEPENDENCY})
-    message("Installing dependency: ${DEPENDENCY}")
+    message("Setting up dependency: ${DEPENDENCY}")
+
+    set_target_properties(${DEPENDENCY} PROPERTIES 
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
     install(TARGETS ${DEPENDENCY}
         EXPORT "${PROJECT_NAME}Targets"
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -70,5 +81,7 @@ foreach(DEPENDENCY ${DEPENDENCIES})
         PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
   endif()
 endforeach()
+
+add_subdirectory(Examples)
 
 message("------------------------------------------------------------\n")

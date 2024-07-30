@@ -366,7 +366,7 @@ namespace ImGui
                     Colors[ImGuiCol_TitleBgActive] = IEStyle::Colors::SideBarBgColor;
                     Colors[ImGuiCol_TitleBgCollapsed] = IEStyle::Colors::SideBarBgColor;
 
-                    Colors[ImGuiCol_MenuBarBg] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+                    Colors[ImGuiCol_MenuBarBg] = ImVec4(0.00f, 0.117f, 0.157f, 1.00f);
 
                     Colors[ImGuiCol_ScrollbarBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
                     Colors[ImGuiCol_ScrollbarGrab] = IEStyle::Colors::ScrollBarColor;
@@ -381,7 +381,7 @@ namespace ImGui
                     Colors[ImGuiCol_ButtonHovered] = IEStyle::Colors::DefaultButtonHoveredColor;
                     Colors[ImGuiCol_ButtonActive] = IEStyle::Colors::DefaultButtonHoveredColor;
 
-                    Colors[ImGuiCol_Header] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+                    Colors[ImGuiCol_Header] = ImVec4(0.00f, 0.117f, 0.157f, 1.00f);
                     Colors[ImGuiCol_HeaderHovered] = IEStyle::Colors::DefaultButtonColor;
                     Colors[ImGuiCol_HeaderActive] = IEStyle::Colors::DefaultButtonColor;
 
