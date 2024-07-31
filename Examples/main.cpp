@@ -70,6 +70,8 @@ int main()
                     // On Post Frame Render
 
                     CapturedDeltaTime = std::chrono::duration_cast<IEDurationMs>(IEClock::now() - StartFrameTime);
+                    // Captured delta time can be used to enforce a fixed frame rate
+                    
                     if (Renderer.IsAppWindowOpen())
                     {
                         Renderer.WaitEventsTimeout(0.1f);
