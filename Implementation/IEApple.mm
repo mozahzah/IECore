@@ -32,7 +32,7 @@
     self.statusItem = [statusBar statusItemWithLength:NSSquareStatusItemLength];
     if (self.statusItem && self.renderer)
     {
-        NSString* logoFilePath = [NSString stringWithUTF8String:self.renderer->GetIEIconPathString().c_str()];
+        NSString* logoFilePath = [NSString stringWithUTF8String:self.renderer->GetIELogoPathString().c_str()];
         NSImage* icon = [[NSImage alloc] initWithContentsOfFile:logoFilePath];
         if (icon)
         {
