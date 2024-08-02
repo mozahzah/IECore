@@ -17,19 +17,6 @@ extern "C" void ShowRunningInBackgroundAppleNotification(const IERenderer* Rende
 
 void IERenderer::PostWindowCreated()
 {
-    /* Setup Window Icon */
-    int IconWidth, IconHeight, IconChannels;
-    
-    if (unsigned char* const IconPixelData = stbi_load(GetIELogoPathString().c_str(), &IconWidth, &IconHeight, &IconChannels, 4))
-    {
-        GLFWimage IconImage;
-        IconImage.width = IconWidth;
-        IconImage.height = IconHeight;
-        IconImage.pixels = IconPixelData;
-        glfwSetWindowIcon(m_AppWindow, 1, &IconImage);
-        stbi_image_free(IconPixelData);
-    }
-
     /* Setup Window Close Callback */
     glfwSetWindowUserPointer(m_AppWindow, this);
     glfwSetWindowCloseCallback(m_AppWindow, [](GLFWwindow* Window)
@@ -41,6 +28,17 @@ void IERenderer::PostWindowCreated()
         });
 
 #if defined (_WIN32)
+    int IconWidth, IconHeight, IconChannels;
+    if (unsigned char* const IconPixelData = stbi_load(GetIELogoPathString().c_str(), &IconWidth, &IconHeight, &IconChannels, 4))
+    {
+        GLFWimage IconImage;
+        IconImage.width = IconWidth;
+        IconImage.height = IconHeight;
+        IconImage.pixels = IconPixelData;
+        glfwSetWindowIcon(m_AppWindow, 1, &IconImage);
+        stbi_image_free(IconPixelData);
+    }
+
     InitializeIEWin32App(this);
 #elif defined (__APPLE__)
     InitializeIEAppleApp(this);

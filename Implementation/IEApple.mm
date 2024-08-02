@@ -107,17 +107,20 @@
     self = [super init];
     if (self)
     {
-        UNUserNotificationCenter* notificationCenter = [UNUserNotificationCenter currentNotificationCenter];
-        notificationCenter.delegate = self;
-
-        [notificationCenter requestAuthorizationWithOptions : (UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge)
-            completionHandler : ^ (BOOL granted, NSError * _Nullable error)
+        if ([[NSBundle mainBundle] bundleIdentifier])
         {
-            if (!granted)
+            UNUserNotificationCenter* notificationCenter = [UNUserNotificationCenter currentNotificationCenter];
+            notificationCenter.delegate = self;
+
+            [notificationCenter requestAuthorizationWithOptions : (UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge)
+                completionHandler : ^ (BOOL granted, NSError * _Nullable error)
             {
-                NSLog(@"Notification permission not granted: %@", error.localizedDescription);
-            }
-        }];
+                if (!granted)
+                {
+                    NSLog(@"Notification permission not granted: %@", error.localizedDescription);
+                }
+            }];
+        }
     }
     return self;
 }
@@ -140,25 +143,28 @@ extern "C" void InitializeIEAppleApp(IERenderer * Renderer)
 
 extern "C" void ShowRunningInBackgroundAppleNotification(IERenderer * Renderer)
 {
-    UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
-    content.title = @"IEMidi";
-    content.body = @"IEMidi is running in the background";
-    content.sound = [UNNotificationSound soundNamed:@"Purr"];
-
-    NSString* uniqueIdentifier = [[NSUUID UUID]UUIDString];
-    UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier : uniqueIdentifier
-        content:content trigger:nil];
-
-    [[UNUserNotificationCenter currentNotificationCenter]addNotificationRequest:request withCompletionHandler : ^ (NSError * _Nullable error)
+    if ([[NSBundle mainBundle] bundleIdentifier])
     {
-        if (error != nil)
+        UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
+        content.title = @"IEMidi";
+        content.body = @"IEMidi is running in the background";
+        content.sound = [UNNotificationSound soundNamed:@"Purr"];
+
+        NSString* uniqueIdentifier = [[NSUUID UUID]UUIDString];
+        UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier : uniqueIdentifier
+            content:content trigger:nil];
+
+        [[UNUserNotificationCenter currentNotificationCenter]addNotificationRequest:request withCompletionHandler : ^ (NSError * _Nullable error)
         {
-            NSLog(@"Error adding notification: %@", error.localizedDescription);
-        }
-        else
-        {
-            NSLog(@"Notification added successfully %@", uniqueIdentifier);
-        }
-    }];
+            if (error != nil)
+            {
+                NSLog(@"Error adding notification: %@", error.localizedDescription);
+            }
+            else
+            {
+                NSLog(@"Notification added successfully %@", uniqueIdentifier);
+            }
+        }];
+    }
 }
 #endif

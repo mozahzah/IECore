@@ -14,6 +14,14 @@ public:
     void OnPreFrameRender()
     {
         ImGui::ShowDemoWindow();
+
+        ImGui::SetNextWindowSize(ImVec2(400.0f, 200.0f), ImGuiCond_Once);
+        ImGui::Begin("IECore Demo Window");
+        static std::string FilePath;
+        ImGui::Text("Open File Finder: "); ImGui::SameLine();
+        ImGui::FileFinder("File Finder", 3, FilePath);
+        ImGui::End();
+
         //...
     }
 
