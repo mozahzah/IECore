@@ -218,7 +218,7 @@ namespace ImGui
 
         ImVec2 GetDefaultButtonSize()
         {
-            return ImVec2(75.0f, ImGui::GetTextLineHeightWithSpacing());
+            return ImVec2(90.0f, ImGui::GetTextLineHeightWithSpacing());
         }
 
         ImVec2 GetSquareButtonSize()
@@ -269,31 +269,34 @@ namespace ImGui
             const std::filesystem::path ResourcesDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "Resources");
             IO.IniFilename = nullptr;
 
+            ImFontConfig FontConfig;
+            FontConfig.GlyphExtraSpacing.x = 1.2f;
+
             const std::filesystem::path SpaceGroteskFontPath = ResourcesDirectory / "Fonts/Space_Grotesk/static/SpaceGrotesk-Medium.ttf";
             const std::filesystem::path SpaceGroteskSemiBoldFontPath = ResourcesDirectory / "Fonts/Space_Grotesk/static/SpaceGrotesk-SemiBold.ttf";
-            const std::filesystem::path SpaceGroteskBoldFontPath = ResourcesDirectory / "Fonts/Space_Grotesk/static/SpaceGrotesk-Bold.ttf";
+            const std::filesystem::path SpaceGroteskRegularFontPath = ResourcesDirectory / "Fonts/Space_Grotesk/static/SpaceGrotesk-Regular.ttf";
 
             if (std::filesystem::exists(SpaceGroteskFontPath) && !DefaultFontIndex.has_value())
             {
-                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskFontPath.c_str()).c_str(), DefaultTextSize);
+                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskFontPath.c_str()).c_str(), DefaultTextSize, &FontConfig);
                 DefaultFontIndex = IO.Fonts->Fonts.size() - 1;
             }
 
             if (std::filesystem::exists(SpaceGroteskSemiBoldFontPath) && !BoldFontIndex.has_value())
             {
-                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskSemiBoldFontPath.c_str()).c_str(), DefaultTextSize);
+                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskSemiBoldFontPath.c_str()).c_str(), DefaultTextSize, &FontConfig);
                 BoldFontIndex = IO.Fonts->Fonts.size() - 1;
             }
 
             if (std::filesystem::exists(SpaceGroteskSemiBoldFontPath) && !SubtitleFontIndex.has_value())
             {
-                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskSemiBoldFontPath.c_str()).c_str(), SubtitleTextSize);
+                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskSemiBoldFontPath.c_str()).c_str(), SubtitleTextSize, &FontConfig);
                 SubtitleFontIndex = IO.Fonts->Fonts.size() - 1;
             }
 
-            if (std::filesystem::exists(SpaceGroteskBoldFontPath) && !TitleFontIndex.has_value())
+            if (std::filesystem::exists(SpaceGroteskRegularFontPath) && !TitleFontIndex.has_value())
             {
-                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskBoldFontPath.c_str()).c_str(), TitleTextSize);
+                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskRegularFontPath.c_str()).c_str(), TitleTextSize, &FontConfig);
                 TitleFontIndex = IO.Fonts->Fonts.size() - 1;
             }
 

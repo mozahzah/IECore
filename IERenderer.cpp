@@ -316,9 +316,9 @@ void IERenderer_Vulkan::RenderFrame(ImDrawData& DrawData)
     const bool bIsMinimized = (DrawData.DisplaySize.x <= 0.0f || DrawData.DisplaySize.y <= 0.0f);
     if (!bIsMinimized)
     {
-        m_AppWindowVulkanData.ClearValue.color.float32[0] = 0.0f;
-        m_AppWindowVulkanData.ClearValue.color.float32[1] = 0.0f;
-        m_AppWindowVulkanData.ClearValue.color.float32[2] = 0.0f;
+        m_AppWindowVulkanData.ClearValue.color.float32[0] = 0.0627f;
+        m_AppWindowVulkanData.ClearValue.color.float32[1] = 0.0700f;
+        m_AppWindowVulkanData.ClearValue.color.float32[2] = 0.0800f;
         m_AppWindowVulkanData.ClearValue.color.float32[3] = 1.0f;
 
         VkSemaphore ImageAcquiredSemaphore = m_AppWindowVulkanData.FrameSemaphores[m_AppWindowVulkanData.SemaphoreIndex].ImageAcquiredSemaphore;

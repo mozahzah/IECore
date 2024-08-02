@@ -31,8 +31,8 @@ namespace ImGui
 
     namespace IEStyle
     {
-        static constexpr float DefaultWindowRounding = 0.0f;
-        static constexpr float ChildWindowRounding = 5.0f;
+        static constexpr float DefaultWindowRounding = 6.0f;
+        static constexpr float ChildWindowRounding = 6.0f;
 
         static constexpr float DefaultTextSize = 18.0f;
         static constexpr float SubtitleTextSize = 24.0f;
