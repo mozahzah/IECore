@@ -15,7 +15,7 @@ namespace IEUtils
     {
         static std::basic_string<ToCharType> Cast(const FromCharType* String)
         {
-            static_assert(false, "StringCast specialization not implemented for this type combination.");
+            static_assert(sizeof(ToCharType) == -1, "StringCast specialization not implemented for this type combination.");
             return std::basic_string<ToCharType>();
         }
     };
@@ -55,6 +55,7 @@ namespace IEUtils
                     Size = wcstombs_l(Buffer.data(), String, Buffer.size(), Locale);
                     if (Size != -1) 
                     {
+                        Buffer[Size] = '\0';
                         ReturnString = std::string(Buffer.data());
                     }
                 }
@@ -91,6 +92,7 @@ namespace IEUtils
                     Size = mbsrtowcs_l(Buffer.data(), &String, Buffer.size(), &State, Locale);
                     if (Size != -1) 
                     {
+                        Buffer[Size] = L'\0';
                         ReturnString.assign(Buffer.data(), Size);
                     }
                 }
