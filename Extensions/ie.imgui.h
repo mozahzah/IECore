@@ -34,14 +34,14 @@ namespace ImGui
         static constexpr float DefaultWindowRounding = 6.0f;
         static constexpr float ChildWindowRounding = 6.0f;
 
-        static constexpr float DefaultTextSize = 18.0f;
-        static constexpr float SubtitleTextSize = 24.0f;
-        static constexpr float TitleTextSize = 32.0f;
+        static constexpr float DefaultTextSize = 24.0f;
+        static constexpr float SubtitleTextSize = 30.0f;
+        static constexpr float TitleTextSize = 36.0f;
         
         namespace Colors
         {
             /* Window */
-            static constexpr ImVec4 DefaultWindowBgColor = ImVec4(0.044f, 0.045f, 0.054f, 1.00f);
+            static constexpr ImVec4 DefaultWindowBgColor = ImVec4(0.064f, 0.065f, 0.074f, 1.00f);
             static constexpr ImVec4 SideBarBgColor = ImVec4(0.025f, 0.026f, 0.037f, 1.00f);
             
             /* Text */
@@ -57,7 +57,7 @@ namespace ImGui
             static constexpr ImVec4 GreenButtonHoveredColor = ImVec4(0.051f, 0.251f, 0.051f, 1.00f);
 
             /* Other */
-            static constexpr ImVec4 FrameBgColor = ImVec4(1.0f, 1.0f, 1.0f, 0.025f);
+            static constexpr ImVec4 FrameBgColor = ImVec4(0.025f, 0.026f, 0.037f, 1.00f);
             static constexpr ImVec4 ScrollBarColor = ImVec4(0.400f, 0.310f, 0.310f, 1.00f);
             static constexpr ImVec4 ScrollBarActiveColor = ImVec4(0.500f, 0.310f, 0.310f, 1.000f);
         }

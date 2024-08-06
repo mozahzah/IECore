@@ -270,42 +270,45 @@ namespace ImGui
             IO.IniFilename = nullptr;
 
             ImFontConfig FontConfig;
-            FontConfig.GlyphExtraSpacing.x = 1.2f;
+            FontConfig.OversampleH = 3;
+            FontConfig.OversampleV = 3;
 
-            const std::filesystem::path SpaceGroteskFontPath = ResourcesDirectory / "Fonts/Space_Grotesk/static/SpaceGrotesk-Medium.ttf";
-            const std::filesystem::path SpaceGroteskSemiBoldFontPath = ResourcesDirectory / "Fonts/Space_Grotesk/static/SpaceGrotesk-SemiBold.ttf";
-            const std::filesystem::path SpaceGroteskRegularFontPath = ResourcesDirectory / "Fonts/Space_Grotesk/static/SpaceGrotesk-Regular.ttf";
+            const std::filesystem::path DefaultFontPath = ResourcesDirectory / "Fonts/Montserrat/static/Montserrat-Medium.ttf";
+            const std::filesystem::path BoldFontPath = ResourcesDirectory / "Fonts/Montserrat/static/Montserrat-SemiBold.ttf";
+            const std::filesystem::path TitleFontPath = ResourcesDirectory / "Fonts/Montserrat/static/Montserrat-Bold.ttf";
 
-            if (std::filesystem::exists(SpaceGroteskFontPath) && !DefaultFontIndex.has_value())
+            if (std::filesystem::exists(DefaultFontPath) && !DefaultFontIndex.has_value())
             {
-                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskFontPath.c_str()).c_str(), DefaultTextSize, &FontConfig);
+                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(DefaultFontPath.c_str()).c_str(), DefaultTextSize, &FontConfig);
                 DefaultFontIndex = IO.Fonts->Fonts.size() - 1;
             }
 
-            if (std::filesystem::exists(SpaceGroteskSemiBoldFontPath) && !BoldFontIndex.has_value())
+            if (std::filesystem::exists(BoldFontPath) && !BoldFontIndex.has_value())
             {
-                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskSemiBoldFontPath.c_str()).c_str(), DefaultTextSize, &FontConfig);
+                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(BoldFontPath.c_str()).c_str(), DefaultTextSize, &FontConfig);
                 BoldFontIndex = IO.Fonts->Fonts.size() - 1;
             }
 
-            if (std::filesystem::exists(SpaceGroteskSemiBoldFontPath) && !SubtitleFontIndex.has_value())
+            if (std::filesystem::exists(BoldFontPath) && !SubtitleFontIndex.has_value())
             {
-                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskSemiBoldFontPath.c_str()).c_str(), SubtitleTextSize, &FontConfig);
+                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(BoldFontPath.c_str()).c_str(), SubtitleTextSize, &FontConfig);
                 SubtitleFontIndex = IO.Fonts->Fonts.size() - 1;
             }
 
-            if (std::filesystem::exists(SpaceGroteskRegularFontPath) && !TitleFontIndex.has_value())
+            if (std::filesystem::exists(TitleFontPath) && !TitleFontIndex.has_value())
             {
-                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(SpaceGroteskRegularFontPath.c_str()).c_str(), TitleTextSize, &FontConfig);
+                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(TitleFontPath.c_str()).c_str(), TitleTextSize, &FontConfig);
                 TitleFontIndex = IO.Fonts->Fonts.size() - 1;
             }
 
             IO.Fonts->Build();
-            IO.FontGlobalScale = 1.0f;
+            IO.FontGlobalScale = 0.7f;
 
             if (ImGuiStyle* const Style = StyleDestination ? StyleDestination : &ImGui::GetStyle())
             {
                 /* Main */
+                Style->CurveTessellationTol = 0.10f;
+                Style->CircleTessellationMaxError = 0.10f;
                 Style->WindowPadding = ImVec2(10.0f, 10.0f);
                 Style->FramePadding = ImVec2(5.0f, 5.0f);
                 Style->ItemSpacing = ImVec2(10.0f, 5.0f);
