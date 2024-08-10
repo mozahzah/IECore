@@ -39,7 +39,7 @@
             [icon setSize:NSMakeSize([statusBar thickness] - 5, [statusBar thickness] - 5)];
             [self.statusItem button].image = icon;
                 
-            NSMenu* menuItem = [[NSMenu alloc] initWithTitle:@"IEMidi"];
+            NSMenu* menuItem = [[NSMenu alloc] initWithTitle:@"IECore"];
             [menuItem setMinimumWidth:200];
             [menuItem setAutoenablesItems:NO];
 
@@ -47,14 +47,14 @@
             NSTextField *menuTitleLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(10, 0, 190, 20)];
             NSFont *titleFont = [NSFont systemFontOfSize:13 weight:NSFontWeightSemibold];
             NSDictionary *titleAttributes = @{NSFontAttributeName: titleFont};
-            NSAttributedString *titleAttribute = [[NSAttributedString alloc] initWithString:@"IEMidi" attributes:titleAttributes];
+            NSAttributedString *titleAttribute = [[NSAttributedString alloc] initWithString:@"IECore" attributes:titleAttributes];
             [menuTitleLabel setAttributedStringValue:titleAttribute];
             [menuTitleLabel setEditable:NO];
             [menuTitleLabel setBezeled:NO];
             [menuTitleLabel setDrawsBackground:NO];
             [menuTitleView addSubview:menuTitleLabel];
             
-            NSMenuItem* titleMenuItem = [[NSMenuItem alloc] initWithTitle:@"IEMidi" action:nil keyEquivalent:@""];
+            NSMenuItem* titleMenuItem = [[NSMenuItem alloc] initWithTitle:@"IECore" action:nil keyEquivalent:@""];
             [titleMenuItem setView:menuTitleView];
             [menuItem addItem:titleMenuItem];
 
@@ -146,8 +146,8 @@ extern "C" void ShowRunningInBackgroundAppleNotification(IERenderer * Renderer)
     if ([[NSBundle mainBundle] bundleIdentifier])
     {
         UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
-        content.title = @"IEMidi";
-        content.body = @"IEMidi is running in the background";
+        content.title = @"IECore";
+        content.body = @"IECore is running in the background";
         content.sound = [UNNotificationSound soundNamed:@"Purr"];
 
         NSString* uniqueIdentifier = [[NSUUID UUID]UUIDString];
