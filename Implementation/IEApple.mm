@@ -9,8 +9,85 @@
 #import <Cocoa/Cocoa.h>
 #import <UserNotifications/UserNotifications.h>
 
-@interface IEAppleStatusItem : NSObject<NSApplicationDelegate>
-@property IERenderer* renderer;
+/* IE Apple App Delegate */
+
+@interface IEAppleAppDelegate : NSObject<NSApplicationDelegate>
+@property (nonatomic) IERenderer* renderer;
+@end
+
+@implementation IEAppleAppDelegate
+- (id)initWithRenderer:(IERenderer*)Renderer
+{
+    self = [super init];
+    if (self) 
+    {
+        self.renderer = Renderer;
+        [NSApplication sharedApplication].delegate = self;
+    }    
+    return self;
+}
+
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender 
+{
+    if (self.renderer)
+    {
+        self.renderer->RequestExit();
+    }
+    return NSTerminateNow;
+}
+
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag 
+{
+    if (self.renderer)
+    {
+        self.renderer->RestoreAppWindow();
+        return YES;
+    }
+    return NO;
+}   
+@end
+
+/* IE Apple Notification Delegate */
+
+@interface IEAppleNotificationDelegate : NSObject<UNUserNotificationCenterDelegate>
+@end
+
+@implementation IEAppleNotificationDelegate
+- (instancetype)init
+{
+    self = [super init];
+    if (self)
+    {
+        if ([[NSBundle mainBundle] bundleIdentifier])
+        {
+            UNUserNotificationCenter* notificationCenter = [UNUserNotificationCenter currentNotificationCenter];
+            notificationCenter.delegate = self;
+
+            [notificationCenter requestAuthorizationWithOptions : (UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge)
+                completionHandler : ^ (BOOL granted, NSError * _Nullable error)
+            {
+                if (!granted)
+                {
+                    NSLog(@"Notification permission not granted: %@", error.localizedDescription);
+                }
+            }];
+        }
+    }
+    return self;
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+       willPresentNotification:(UNNotification *)notification
+    withCompletionHandler : (void(^)(UNNotificationPresentationOptions options))completionHandler
+    {
+        completionHandler(UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionBanner | UNNotificationPresentationOptionSound);
+    }
+@end
+
+/* IE Apple Status Item */
+
+@interface IEAppleStatusItem : NSObject
+@property (nonatomic) IERenderer* renderer;
 @property (strong, nonatomic) NSStatusItem* statusItem;
 @end
 
@@ -98,50 +175,16 @@
 }
 @end
 
-@interface IEAppleNotificationDelegate : NSObject <UNUserNotificationCenterDelegate>
-@end
-
-@implementation IEAppleNotificationDelegate
-- (instancetype)init
-{
-    self = [super init];
-    if (self)
-    {
-        if ([[NSBundle mainBundle] bundleIdentifier])
-        {
-            UNUserNotificationCenter* notificationCenter = [UNUserNotificationCenter currentNotificationCenter];
-            notificationCenter.delegate = self;
-
-            [notificationCenter requestAuthorizationWithOptions : (UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge)
-                completionHandler : ^ (BOOL granted, NSError * _Nullable error)
-            {
-                if (!granted)
-                {
-                    NSLog(@"Notification permission not granted: %@", error.localizedDescription);
-                }
-            }];
-        }
-    }
-    return self;
-}
-
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center
-       willPresentNotification:(UNNotification *)notification
-    withCompletionHandler : (void(^)(UNNotificationPresentationOptions options))completionHandler
-    {
-        completionHandler(UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionBanner | UNNotificationPresentationOptionSound);
-    }
-@end
-
 /* EXTERN C Code */
 
-extern "C" void InitializeIEAppleApp(IERenderer * Renderer)
+extern "C" void InitializeIEAppleApp(IERenderer* Renderer)
 {
-    IEAppleStatusItem* IEStatusItem = [[IEAppleStatusItem alloc]initWithRenderer:Renderer];
+    IEAppleAppDelegate *IEAppDelegate = [[IEAppleAppDelegate alloc]initWithRenderer:Renderer];
     IEAppleNotificationDelegate *IENotificationDelegate = [[IEAppleNotificationDelegate alloc] init];
+    IEAppleStatusItem* IEStatusItem = [[IEAppleStatusItem alloc]initWithRenderer:Renderer];
 }
 
-extern "C" void ShowRunningInBackgroundAppleNotification(IERenderer * Renderer)
+extern "C" void ShowRunningInBackgroundAppleNotification(IERenderer* Renderer)
 {
     if ([[NSBundle mainBundle] bundleIdentifier])
     {
