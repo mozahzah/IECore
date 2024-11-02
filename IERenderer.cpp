@@ -187,7 +187,7 @@ IEResult IERenderer_Vulkan::Initialize()
     if (glfwInit() && glfwVulkanSupported())
     {
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-        m_AppWindow = glfwCreateWindow(m_DefaultAppWindowWidth, m_DefaultAppWindowHeight, "IEMidi", nullptr, nullptr);
+        m_AppWindow = glfwCreateWindow(m_DefaultAppWindowWidth, m_DefaultAppWindowHeight, "Interactive Echoes", nullptr, nullptr);
         if (m_AppWindow)
         {
             PostWindowCreated();
