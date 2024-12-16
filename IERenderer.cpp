@@ -19,6 +19,10 @@ void IERenderer::PostWindowCreated()
 {
     /* Setup Window Close Callback */
     glfwSetWindowUserPointer(m_AppWindow, this);
+    glfwSetWindowSizeCallback(m_AppWindow, [](GLFWwindow* Window, int Width, int Height)
+        {
+            glfwPostEmptyEvent();
+        });
     glfwSetWindowCloseCallback(m_AppWindow, [](GLFWwindow* Window)
         {
             if (IERenderer* const Renderer = reinterpret_cast<IERenderer*>(glfwGetWindowUserPointer(Window)))
