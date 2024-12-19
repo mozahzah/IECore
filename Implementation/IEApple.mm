@@ -124,14 +124,14 @@
             NSTextField *menuTitleLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(10, 0, 190, 20)];
             NSFont *titleFont = [NSFont systemFontOfSize:13 weight:NSFontWeightSemibold];
             NSDictionary *titleAttributes = @{NSFontAttributeName: titleFont};
-            NSAttributedString *titleAttribute = [[NSAttributedString alloc] initWithString:@"IECore" attributes:titleAttributes];
+            NSAttributedString *titleAttribute = [[NSAttributedString alloc] initWithString:[NSString stringWithUTF8String:self.renderer->GetAppName().c_str()] attributes:titleAttributes];
             [menuTitleLabel setAttributedStringValue:titleAttribute];
             [menuTitleLabel setEditable:NO];
             [menuTitleLabel setBezeled:NO];
             [menuTitleLabel setDrawsBackground:NO];
             [menuTitleView addSubview:menuTitleLabel];
             
-            NSMenuItem* titleMenuItem = [[NSMenuItem alloc] initWithTitle:@"IECore" action:nil keyEquivalent:@""];
+            NSMenuItem* titleMenuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithUTF8String:self.renderer->GetAppName().c_str()] action:nil keyEquivalent:@""];
             [titleMenuItem setView:menuTitleView];
             [menuItem addItem:titleMenuItem];
 
@@ -186,10 +186,10 @@ extern "C" void InitializeIEAppleApp(IERenderer* Renderer)
 
 extern "C" void ShowRunningInBackgroundAppleNotification(IERenderer* Renderer)
 {
-    if ([[NSBundle mainBundle] bundleIdentifier])
+    if ([[NSBundle mainBundle] bundleIdentifier] && Renderer)
     {
         UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
-        content.title = @"IECore";
+        content.title = [NSString stringWithUTF8String:Renderer->GetAppName().c_str()];
         content.body = @"IECore is running in the background";
         content.sound = [UNNotificationSound soundNamed:@"Purr"];
 

@@ -182,7 +182,7 @@ void IERenderer::DrawTelemetry() const
     ImGui::End();
 }
 
-IEResult IERenderer_Vulkan::Initialize()
+IEResult IERenderer_Vulkan::Initialize(const std::string& AppName)
 {
     IEResult Result(IEResult::Type::Fail, "Failed to initialize IERenderer");
 
@@ -193,6 +193,7 @@ IEResult IERenderer_Vulkan::Initialize()
         m_AppWindow = glfwCreateWindow(m_DefaultAppWindowWidth, m_DefaultAppWindowHeight, "Interactive Echoes", nullptr, nullptr);
         if (m_AppWindow)
         {
+            m_AppName = AppName;
             PostWindowCreated();
             if (InitializeVulkan())
             {
