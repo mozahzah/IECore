@@ -116,7 +116,7 @@
             [icon setSize:NSMakeSize([statusBar thickness] - 5, [statusBar thickness] - 5)];
             [self.statusItem button].image = icon;
                 
-            NSMenu* menuItem = [[NSMenu alloc] initWithTitle:@"IECore"];
+            NSMenu* menuItem = [[NSMenu alloc] initWithTitle:[NSString stringWithUTF8String:self.renderer->GetAppName().c_str()]];
             [menuItem setMinimumWidth:200];
             [menuItem setAutoenablesItems:NO];
 
@@ -190,7 +190,7 @@ extern "C" void ShowRunningInBackgroundAppleNotification(IERenderer* Renderer)
     {
         UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
         content.title = [NSString stringWithUTF8String:Renderer->GetAppName().c_str()];
-        content.body = @"IECore is running in the background";
+        content.body = @"App is running in the background";
         content.sound = [UNNotificationSound soundNamed:@"Purr"];
 
         NSString* uniqueIdentifier = [[NSUUID UUID]UUIDString];
