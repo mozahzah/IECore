@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include "IECoreMinimal.h"
-#include "IERenderer.h"
-#include "IEUtils.h"
+#include "Source/IECoreMinimal.h"
+#include "Source/IERenderer.h"
+#include "Source/IEUtils.h"
 
 #include "Extensions/ie.imgui.h"
