@@ -8,26 +8,18 @@
 
 # IECore
 
-**IECore** is a open-source library designed for Windows and macOS applications that leverages ImGui as its user interface.
-The library includes an abstracted renderer class and robust logging, as well as useful utilities and ImGui extension logic.  
-Currently, only Vulkan is implemented as a rendering backend, but support for additional backends will be added in the future.  
+**IECore** is an open-source library designed for Windows and macOS, leveraging ImGui as its user interface. It serves as the core framework for all applications under the Interactive Echoes (IE) brand, offering a plug-and-play setup with pre-configured entry points, making it simple to start developping C++ applications.  
 
 > [!IMPORTANT] 
 > Find the IECore wiki here: [IECore Wiki](https://github.com/mozahzah/IECore/wiki)
 
-## Features
+## Feature Highlight
 - **Abstracted Renderer Class**: Provides a unified interface for different rendering backends.
 - **Robust Logging**: Offers detailed logging capabilities for debugging and monitoring.
 - **Utilities**: Provides various helpful tools and functions for application development.
 - **ImGui Extension Logic**: Enhances ImGui with additional functionality and customizations.
-
-## ImGui Extensions
-The ImGui namespace is extended with several useful functions to enhance the flexibility and ease of use within the ImGui framework.  
-These extensions provide enhanced cursor positioning and additional useful widgets.  
-### Highlighted features
-- **SmartCursorPositioning**: Sets the cursor position relative to the current window size by providing a scalar between 0 - 1.
-- **CenteredText(const char\* Fmt, ...)**: Renders text centered horizontally within the current window.
-- **FileFinder(const char\* Label, int Depth, std::string& SelectedFile)**: Opens a file finder dialog that allows users to browse directories and select files. The file finder widget will automatically reset once the directory depth specified by the Depth parameter is reached. The function stores the path of the selected file in the SelectedFile parameter.
+> [!NOTE]
+> Currently, only Vulkan is implemented as a rendering backend, but support for additional backends will be added in the future. 
 
 ## Third-Party Libraries Used
 - [Dear ImGui](https://github.com/ocornut/imgui)
