@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-only
-// Copyright © 2024 Interactive Echoes. All rights reserved.
+// Copyright © Interactive Echoes. All rights reserved.
 // Author: mozahzah
 
 #include "IECore.h"
@@ -39,7 +39,7 @@ int main()
     DemoApp App;
 
     IERenderer& Renderer = App.GetRenderer();
-    if (Renderer.Initialize())
+    if (Renderer.Initialize(std::string("DemoApp")))
     {
         if (ImGuiContext* const CreatedImGuiContext = ImGui::CreateContext())
         {

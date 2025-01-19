@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-only
-// Copyright © 2024 Interactive Echoes. All rights reserved.
+// Copyright © Interactive Echoes. All rights reserved.
 // Author: mozahzah
 
 #pragma once
@@ -26,7 +26,7 @@ public:
     virtual ~IERenderer() = default;
 
 public:
-    virtual IEResult Initialize() = 0;
+    virtual IEResult Initialize(const std::string& AppName) = 0;
     virtual IEResult PostImGuiContextCreated() = 0;
     virtual void Deinitialize() = 0;
     virtual int32_t FlushGPUCommandsAndWait() = 0;
@@ -56,6 +56,7 @@ public:
 
 public:
     GLFWwindow* GetGLFWwindow() const { return m_AppWindow; }
+    const std::string& GetAppName() const { return m_AppName; }
     std::string GetIELogoPathString() const;
     void DrawTelemetry() const;
 
@@ -65,9 +66,10 @@ private:
 
 protected:
     GLFWwindow* m_AppWindow = nullptr;
+    std::string m_AppName;
     int32_t m_DefaultAppWindowWidth = 1280;
     int32_t m_DefaultAppWindowHeight = 720;
-
+    
 private:
     std::vector<std::pair<void*, std::function<void(uint32_t, void*)>>> m_OnWindowCloseCallbackFunc;
     std::vector<std::pair<void*, std::function<void(uint32_t, void*)>>> m_OnWindowRestoreCallbackFunc;
@@ -80,7 +82,7 @@ class IERenderer_Vulkan : public IERenderer
 {
 public:
     /* Begin IERenderer Implementation */
-    IEResult Initialize() override;
+    IEResult Initialize(const std::string& AppName) override;
     IEResult PostImGuiContextCreated() override;
     void Deinitialize() override;
     int32_t FlushGPUCommandsAndWait() override;

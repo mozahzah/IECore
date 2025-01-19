@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-only
-// Copyright © 2024 Interactive Echoes. All rights reserved.
+// Copyright © Interactive Echoes. All rights reserved.
 // Author: mozahzah
 
 #include "Source/IERenderer.h"
@@ -97,7 +97,7 @@ extern void InitializeIEWin32App(IERenderer* Renderer)
         TrayIconData.uFlags = NIF_ICON | NIF_TIP | NIF_GUID | NIF_MESSAGE;
         TrayIconData.uCallbackMessage = WM_TRAYICON;
         TrayIconData.hIcon = reinterpret_cast<HICON>(SendMessage(Win32Window, WM_GETICON, ICON_SMALL, 0));
-        lstrcpy(TrayIconData.szTip, TEXT("IECore"));
+        lstrcpy(TrayIconData.szTip, TEXT(Renderer->GetAppName().c_str()));
         Shell_NotifyIcon(NIM_ADD, &TrayIconData);
 
         g_GlfwWndProc = (WNDPROC)GetWindowLongPtr(Win32Window, GWLP_WNDPROC);
@@ -120,8 +120,8 @@ extern void ShowRunningInBackgroundWin32Notification(const IERenderer* Renderer)
         NotificationBalloonData.uFlags = NIF_INFO | NIF_ICON;
         NotificationBalloonData.dwInfoFlags = NIIF_INFO;
         NotificationBalloonData.hIcon = reinterpret_cast<HICON>(SendMessage(Win32Window, WM_GETICON, ICON_SMALL, 0));
-        lstrcpy(NotificationBalloonData.szTip, TEXT("IECore"));
-        lstrcpy(NotificationBalloonData.szInfo, TEXT("IECore is running in the background"));
+        lstrcpy(NotificationBalloonData.szTip, TEXT(Renderer->GetAppName().c_str()));
+        lstrcpy(NotificationBalloonData.szInfo, TEXT("App is running in the background"));
         
         Shell_NotifyIcon(NIM_ADD, &NotificationBalloonData);
         Shell_NotifyIcon(NIM_DELETE, &NotificationBalloonData);

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-2.0-only
-# Copyright © 2024 Interactive Echoes. All rights reserved.
+# Copyright © Interactive Echoes. All rights reserved.
 # Author: mozahzah
 
 cmake_minimum_required(VERSION 3.20)
@@ -35,7 +35,7 @@ file(GLOB SOURCE_FILES "./Source/*.cpp")
 list(APPEND SOURCE_FILES ${IMPL_CPP_FILES} ${IMPL_MM_FILES} ${EXTENSION_FILES})
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
 target_include_directories(${PROJECT_NAME} PUBLIC "." ThirdParty/stb)
-file(GLOB HEADER_FILES "./*.h")
+file(GLOB HEADER_FILES "./IECore.h")
 set_property(TARGET ${PROJECT_NAME} PROPERTY PUBLIC_HEADER ${HEADER_FILES})
 add_subdirectory(ThirdParty/imgui)
 target_link_libraries(${PROJECT_NAME} PUBLIC imgui)

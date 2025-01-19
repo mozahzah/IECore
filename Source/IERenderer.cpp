@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-only
-// Copyright © 2024 Interactive Echoes. All rights reserved.
+// Copyright © Interactive Echoes. All rights reserved.
 // Author: mozahzah
 
 #include "IERenderer.h"
@@ -19,6 +19,10 @@ void IERenderer::PostWindowCreated()
 {
     /* Setup Window Close Callback */
     glfwSetWindowUserPointer(m_AppWindow, this);
+    glfwSetWindowSizeCallback(m_AppWindow, [](GLFWwindow* Window, int Width, int Height)
+        {
+            glfwPostEmptyEvent();
+        });
     glfwSetWindowCloseCallback(m_AppWindow, [](GLFWwindow* Window)
         {
             if (IERenderer* const Renderer = reinterpret_cast<IERenderer*>(glfwGetWindowUserPointer(Window)))
@@ -178,7 +182,7 @@ void IERenderer::DrawTelemetry() const
     ImGui::End();
 }
 
-IEResult IERenderer_Vulkan::Initialize()
+IEResult IERenderer_Vulkan::Initialize(const std::string& AppName)
 {
     IEResult Result(IEResult::Type::Fail, "Failed to initialize IERenderer");
 
@@ -189,6 +193,7 @@ IEResult IERenderer_Vulkan::Initialize()
         m_AppWindow = glfwCreateWindow(m_DefaultAppWindowWidth, m_DefaultAppWindowHeight, "Interactive Echoes", nullptr, nullptr);
         if (m_AppWindow)
         {
+            m_AppName = AppName;
             PostWindowCreated();
             if (InitializeVulkan())
             {
