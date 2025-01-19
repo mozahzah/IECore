@@ -2,7 +2,7 @@
 # Copyright © 2024 Interactive Echoes. All rights reserved.
 # Author: mozahzah
 
-cmake_minimum_required(VERSION 3.29)
+cmake_minimum_required(VERSION 3.20)
 project(IECore VERSION 1.0.0 LANGUAGES CXX)
 
 message("\n------------------------------------------------------------")
@@ -31,7 +31,7 @@ endif()
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 file(GLOB EXTENSION_FILES "./Extensions/*.cpp")
-file(GLOB SOURCE_FILES "./*.cpp")
+file(GLOB SOURCE_FILES "./Source/*.cpp")
 list(APPEND SOURCE_FILES ${IMPL_CPP_FILES} ${IMPL_MM_FILES} ${EXTENSION_FILES})
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
 target_include_directories(${PROJECT_NAME} PUBLIC "." ThirdParty/stb)

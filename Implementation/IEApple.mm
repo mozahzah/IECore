@@ -2,7 +2,7 @@
 // Copyright © 2024 Interactive Echoes. All rights reserved.
 // Author: mozahzah
 
-#import "IERenderer.h"
+#import "Source/IERenderer.h"
 
 #if defined (__APPLE__)
 
