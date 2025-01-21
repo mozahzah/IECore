@@ -8,7 +8,7 @@
 
 # IECore
 
-**IECore** is an open-source library designed for Linux, Windows and macOS, leveraging ImGui as its user interface. It serves as the core framework for all applications under the Interactive Echoes (IE) brand, offering a plug-and-play setup with pre-configured entry points, making it simple to start developping C++ applications.  
+**IECore** is a library designed for Linux, Windows and macOS, leveraging ImGui as its user interface. It serves as the core framework for all applications under the Interactive Echoes (IE) brand, offering a plug-and-play setup with pre-configured entry points, making it simple to start developping C++ applications.  
 
 > [!IMPORTANT] 
 > For installation and integration instructions, please refer to the Wiki here: [IECore Wiki](https://github.com/mozahzah/IECore/wiki)
