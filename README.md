@@ -1,14 +1,14 @@
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://github.com/mozahzah/IECore/raw/master/Resources/IE-Brand-Kit/IE-Logo-Alt-NoBg.png?">
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/mozahzah/IECore/raw/master/Resources/IE-Brand-Kit/IE-Logo-NoBg.png?">
-  <img alt="IELogo" width="128">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/mozahzah/IECore/raw/master/Resources/IE-Brand-Kit/IE-Logo-Banner-Alt-NoBg.png?">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/mozahzah/IECore/raw/master/Resources/IE-Brand-Kit/IE-Logo-Banner-NoBg.png?">
+  <img alt="IELogo" width="650">
   </picture>
 </div>
 
 # IECore
 
-**IECore** is an open-source library designed for Windows and macOS, leveraging ImGui as its user interface. It serves as the core framework for all applications under the Interactive Echoes (IE) brand, offering a plug-and-play setup with pre-configured entry points, making it simple to start developping C++ applications.  
+**IECore** is an open-source library designed for Linux, Windows and macOS, leveraging ImGui as its user interface. It serves as the core framework for all applications under the Interactive Echoes (IE) brand, offering a plug-and-play setup with pre-configured entry points, making it simple to start developping C++ applications.  
 
 > [!IMPORTANT] 
 > For installation and integration instructions, please refer to the Wiki here: [IECore Wiki](https://github.com/mozahzah/IECore/wiki)
