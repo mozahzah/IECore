@@ -41,7 +41,7 @@ namespace ImGui
         namespace Colors
         {
             /* Window */
-            static constexpr ImVec4 DefaultWindowBgColor = ImVec4(0.064f, 0.065f, 0.074f, 1.00f);
+            static constexpr ImVec4 DefaultWindowBgColor = ImVec4(0.0667f,0.0667f,0.0980f, 1.00f);
             static constexpr ImVec4 SideBarBgColor = ImVec4(0.025f, 0.026f, 0.037f, 1.00f);
             
             /* Text */
