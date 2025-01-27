@@ -61,6 +61,18 @@ namespace IEUtils
                 }
                 freelocale(Locale);
             }
+#elif defined (__linux__)
+            Size = wcstombs(nullptr, String, 0);
+            if (Size != -1) 
+            {
+                std::vector<char> Buffer(Size + 1);
+                Size = wcstombs(Buffer.data(), String, Buffer.size());
+                if (Size != -1) 
+                {
+                    Buffer[Size] = '\0';
+                    ReturnString = std::string(Buffer.data());
+                }
+            }
 #endif
             return ReturnString;
         }
@@ -97,6 +109,18 @@ namespace IEUtils
                     }
                 }
                 freelocale(Locale);
+            }
+#elif defined (__linux__)
+            Size = mbsrtowcs(nullptr, &String, 0, &State);
+            if (Size != -1) 
+            {
+                std::vector<wchar_t> Buffer(Size + 1);
+                Size = mbsrtowcs(Buffer.data(), &String, Buffer.size(), &State);
+                if (Size != -1) 
+                {
+                    Buffer[Size] = L'\0';
+                    ReturnString.assign(Buffer.data(), Size);
+                }
             }
 #endif
             return ReturnString;

@@ -11,7 +11,7 @@
 #include <windows.h>
 #include <shlobj.h>
 #include <comdef.h> 
-#elif defined (__APPLE__)
+#elif defined(__APPLE__) || defined(__linux__)
 #include <pwd.h>
 #include <unistd.h>
 #include <sys/types.h>

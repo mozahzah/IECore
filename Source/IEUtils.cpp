@@ -65,7 +65,7 @@ namespace IEUtils
     std::filesystem::path GetIEConfigFolderPath()
     {
         static constexpr char IEConfigFolderName[] = "IE";
-#ifdef _WIN32
+#if defined (_WIN32)
         PWSTR AppDataFolderPath = NULL;
         const HRESULT Result = SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &AppDataFolderPath);
         if (SUCCEEDED(Result))
@@ -79,7 +79,7 @@ namespace IEUtils
                 return IEConfigFolderPath;
             }
         }
-#elif defined(__APPLE__)
+#elif defined(__APPLE__) || defined(__linux__)
         const char* HomeFolderPath;
         if ((HomeFolderPath = getenv("HOME")) == NULL)
         {
@@ -102,13 +102,13 @@ namespace IEUtils
         bool bIsHidden = false;
         if (std::filesystem::exists(Path))
         {
-#ifdef _WIN32
+#if defined (_WIN32)
             const DWORD Attributes = GetFileAttributes(Path.string().c_str());
             if ((Attributes & FILE_ATTRIBUTE_HIDDEN) != 0)
             {
                 bIsHidden = true;
             }
-#elif defined(__APPLE__)
+#elif defined(__APPLE__) || defined(__linux__)
             const std::string FileName = Path.filename().string();
             if (!FileName.empty() && FileName[0] == '.')
             {
