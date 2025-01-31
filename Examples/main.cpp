@@ -39,7 +39,7 @@ int main()
     DemoApp App;
 
     IERenderer& Renderer = App.GetRenderer();
-    if (Renderer.Initialize(std::string("DemoApp")))
+    if (Renderer.Initialize(std::string("DemoApp"), true))
     {
         if (ImGuiContext* const CreatedImGuiContext = ImGui::CreateContext())
         {

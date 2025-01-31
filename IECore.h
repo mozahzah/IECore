@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Source/IECoreMinimal.h"
+#include "Source/IECommon.h"
 #include "Source/IERenderer.h"
 #include "Source/IEUtils.h"
 

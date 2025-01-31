@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "IECoreMinimal.h"
+#include "IECommon.h"
 
 namespace IEUtils
 {

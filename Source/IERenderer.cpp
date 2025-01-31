@@ -13,6 +13,7 @@ extern void ShowRunningInBackgroundWin32Notification(const IERenderer* Renderer)
 #elif defined (__APPLE__)
 extern "C" void InitializeIEAppleApp(IERenderer * Renderer);
 extern "C" void ShowRunningInBackgroundAppleNotification(const IERenderer* Renderer);
+#elif defined (__Linux__)
 #endif
 
 void IERenderer::PostWindowCreated()
@@ -102,20 +103,27 @@ bool IERenderer::IsAppWindowMinimized() const
     return bIsAppWindowMinimized;
 }
 
-void IERenderer::CloseAppWindow() const
+void IERenderer::CloseAppWindow()
 {
     if (m_AppWindow)
     {
+        if (m_bAllowBackgroundRun)
+        {
 #if defined (_WIN32)
-        ShowRunningInBackgroundWin32Notification(this);
+            ShowRunningInBackgroundWin32Notification(this);
 #elif defined (__APPLE__)
-        ShowRunningInBackgroundAppleNotification(this);
+            ShowRunningInBackgroundAppleNotification(this);
 #endif
-    
-        glfwSetWindowShouldClose(m_AppWindow, GLFW_TRUE);
-        glfwHideWindow(m_AppWindow);
 
-        BroadcastOnWindowClosed();
+            glfwSetWindowShouldClose(m_AppWindow, GLFW_TRUE);
+            glfwHideWindow(m_AppWindow);
+
+            BroadcastOnWindowClosed();
+        }
+        else
+        {
+            RequestExit();
+        }
     }
 }
 
@@ -182,7 +190,7 @@ void IERenderer::DrawTelemetry() const
     ImGui::End();
 }
 
-IEResult IERenderer_Vulkan::Initialize(const std::string& AppName)
+IEResult IERenderer_Vulkan::Initialize(const std::string& AppName, bool bAllowBackgroundRun)
 {
     IEResult Result(IEResult::Type::Fail, "Failed to initialize IERenderer");
 
@@ -194,6 +202,7 @@ IEResult IERenderer_Vulkan::Initialize(const std::string& AppName)
         if (m_AppWindow)
         {
             m_AppName = AppName;
+            m_bAllowBackgroundRun = bAllowBackgroundRun;
             PostWindowCreated();
             if (InitializeVulkan())
             {

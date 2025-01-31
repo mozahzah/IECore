@@ -2,7 +2,7 @@
 // Copyright © Interactive Echoes. All rights reserved.
 // Author: mozahzah
 
-#include "IECoreMinimal.h"
+#include "IECommon.h"
 
 /* Logging and Assertions */
 

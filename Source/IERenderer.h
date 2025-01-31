@@ -26,7 +26,7 @@ public:
     virtual ~IERenderer() = default;
 
 public:
-    virtual IEResult Initialize(const std::string& AppName) = 0;
+    virtual IEResult Initialize(const std::string& AppName, bool bAllowBackgroundRun = false) = 0;
     virtual IEResult PostImGuiContextCreated() = 0;
     virtual void Deinitialize() = 0;
     virtual int32_t FlushGPUCommandsAndWait() = 0;
@@ -49,7 +49,7 @@ public:
     bool IsAppWindowOpen() const;
     bool IsAppWindowMinimized() const;
 
-    void CloseAppWindow() const;
+    void CloseAppWindow();
     void RestoreAppWindow() const;
     void AddOnWindowCloseCallbackFunc(const std::function<void(uint32_t, void*)>& Func, void* UserData);
     void AddOnWindowRestoreCallbackFunc(const std::function<void(uint32_t WindowID, void* UserData)>& Func, void* UserData);
@@ -69,20 +69,21 @@ protected:
     std::string m_AppName;
     int32_t m_DefaultAppWindowWidth = 1280;
     int32_t m_DefaultAppWindowHeight = 720;
-    
+    bool m_bAllowBackgroundRun = false;
+
 private:
     std::vector<std::pair<void*, std::function<void(uint32_t, void*)>>> m_OnWindowCloseCallbackFunc;
     std::vector<std::pair<void*, std::function<void(uint32_t, void*)>>> m_OnWindowRestoreCallbackFunc;
 
 private:
-    bool m_ExitRequested = false;
+    bool m_ExitRequested = false; 
 };
 
 class IERenderer_Vulkan : public IERenderer
 {
 public:
     /* Begin IERenderer Implementation */
-    IEResult Initialize(const std::string& AppName) override;
+    IEResult Initialize(const std::string& AppName, bool bAllowBackgroundRun = false) override;
     IEResult PostImGuiContextCreated() override;
     void Deinitialize() override;
     int32_t FlushGPUCommandsAndWait() override;
