@@ -10,7 +10,7 @@ namespace IEUtils
 
     std::filesystem::path FindFolderPathDownwards(const std::filesystem::path& SearchDirectory, const std::filesystem::path& FolderName)
     {
-        const std::filesystem::path SanitizedFolderName(FolderName);
+        const std::filesystem::path& SanitizedFolderName(FolderName);
         std::filesystem::path CurrentPath(SearchDirectory);
         if (std::filesystem::exists(CurrentPath) && std::filesystem::is_directory(CurrentPath))
         {
@@ -23,7 +23,7 @@ namespace IEUtils
                 {
                     if (Entry.is_directory())
                     {
-                        std::filesystem::path EntryPath = Entry.path();
+                        const std::filesystem::path& EntryPath = Entry.path();
                         if (EntryPath.string().ends_with(SanitizedFolderName.string()))
                         {
                             return EntryPath;
@@ -39,7 +39,7 @@ namespace IEUtils
 
     std::filesystem::path FindFolderPathUpwards(const std::filesystem::path& SearchDirectory, const std::filesystem::path& FolderName)
     {
-        const std::filesystem::path SanitizedFolderName(FolderName);
+        const std::filesystem::path& SanitizedFolderName(FolderName);
         std::filesystem::path CurrentPath(SearchDirectory);
         if (std::filesystem::exists(CurrentPath) && std::filesystem::is_directory(CurrentPath))
         {
@@ -49,7 +49,7 @@ namespace IEUtils
                 {
                     if (std::filesystem::is_directory(Entry))
                     {
-                        std::filesystem::path EntryPath = Entry.path();
+                        const std::filesystem::path& EntryPath = Entry.path();
                         if (EntryPath.string().ends_with(SanitizedFolderName.string()))
                         {
                             return EntryPath;
@@ -86,7 +86,7 @@ namespace IEUtils
             HomeFolderPath = getpwuid(getuid())->pw_dir;
         }
 
-        const std::filesystem::path IEConfigFolderPath = std::filesystem::path(HomeFolderPath) / IEConfigFolderName;
+        const std::filesystem::path& IEConfigFolderPath = std::filesystem::path(HomeFolderPath) / IEConfigFolderName;
         if (std::filesystem::exists(IEConfigFolderPath) || std::filesystem::create_directory(IEConfigFolderPath))
         {
             return IEConfigFolderPath;
@@ -109,7 +109,7 @@ namespace IEUtils
                 bIsHidden = true;
             }
 #elif defined(__APPLE__) || defined(__linux__)
-            const std::string FileName = Path.filename().string();
+            const std::string& FileName = Path.filename().string();
             if (!FileName.empty() && FileName[0] == '.')
             {
                 bIsHidden = true;

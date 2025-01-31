@@ -14,6 +14,8 @@ extern void ShowRunningInBackgroundWin32Notification(const IERenderer* Renderer)
 extern "C" void InitializeIEAppleApp(IERenderer * Renderer);
 extern "C" void ShowRunningInBackgroundAppleNotification(const IERenderer* Renderer);
 #elif defined (__linux__)
+extern void InitializeIELinuxApp(IERenderer* Renderer);
+extern void ShowRunningInBackgroundLinuxNotification(const IERenderer* Renderer);
 #endif
 
 void IERenderer::PostWindowCreated()
@@ -48,6 +50,7 @@ void IERenderer::PostWindowCreated()
 #elif defined (__APPLE__)
     InitializeIEAppleApp(this);
 #elif defined (__linux__)
+    InitializeIELinuxApp(this);
 #endif
 }
 
@@ -114,6 +117,8 @@ void IERenderer::CloseAppWindow()
             ShowRunningInBackgroundWin32Notification(this);
 #elif defined (__APPLE__)
             ShowRunningInBackgroundAppleNotification(this);
+#elif defined (__linux__)
+            ShowRunningInBackgroundLinuxNotification(this);
 #endif
 
             glfwSetWindowShouldClose(m_AppWindow, GLFW_TRUE);
@@ -151,7 +156,7 @@ void IERenderer::AddOnWindowRestoreCallbackFunc(const std::function<void(uint32_
 
 void IERenderer::BroadcastOnWindowClosed() const
 {
-    for (const std::pair<void*, const std::function<void(uint32_t WindowID, void* UserData)>>& Element : m_OnWindowCloseCallbackFunc)
+    for (const std::pair<void*, std::function<void(uint32_t WindowID, void* UserData)>>& Element : m_OnWindowCloseCallbackFunc)
     {
         Element.second(0, Element.first);
     }
@@ -159,7 +164,7 @@ void IERenderer::BroadcastOnWindowClosed() const
 
 void IERenderer::BroadcastOnWindowRestored() const
 {
-    for (const std::pair<void*, const std::function<void(uint32_t WindowID, void* UserData)>>& Element : m_OnWindowRestoreCallbackFunc)
+    for (const std::pair<void*, std::function<void(uint32_t WindowID, void* UserData)>>& Element : m_OnWindowRestoreCallbackFunc)
     {
         Element.second(0, Element.first);
     }
@@ -167,8 +172,8 @@ void IERenderer::BroadcastOnWindowRestored() const
 
 std::string IERenderer::GetIELogoPathString() const
 {
-    const std::filesystem::path ResourcesDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "Resources");
-    const std::filesystem::path IELogoPath = ResourcesDirectory / "IE-Brand-Kit/IE-Logo-NoBg.png";
+    const std::filesystem::path& ResourcesDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "Resources");
+    const std::filesystem::path& IELogoPath = ResourcesDirectory / "IE-Brand-Kit/IE-Logo-NoBg.png";
     return IELogoPath.string();
 }
 
@@ -485,7 +490,7 @@ IEResult IERenderer_Vulkan::InitializeVulkan()
                     }
                 }
 
-                if (m_QueueFamilyIndex != -1)
+                if (m_QueueFamilyIndex != static_cast<uint32_t>(-1))
                 {
                     uint32_t DeviceExtensionCount = 0;
                     vkEnumerateDeviceExtensionProperties(m_VkPhysicalDevice, nullptr, &DeviceExtensionCount, nullptr);

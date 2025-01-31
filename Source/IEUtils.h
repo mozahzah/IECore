@@ -35,7 +35,7 @@ namespace IEUtils
         static std::string Cast(const wchar_t* String) 
         {
             std::string ReturnString;
-            size_t Size = -1;
+            size_t Size = static_cast<size_t>(-1);
 #if defined (_WIN32)
             std::mbstate_t State = std::mbstate_t();
             if (wcsrtombs_s(&Size, nullptr, 0, &String, static_cast<size_t>(-1), &State) == 0)
@@ -49,11 +49,11 @@ namespace IEUtils
             if (const locale_t Locale = newlocale(LC_ALL_MASK, "en_US.UTF-8", nullptr)) 
             {
                 Size = wcstombs_l(nullptr, String, 0, Locale);
-                if (Size != -1) 
+                if (Size != static_cast<size_t>(-1)) 
                 {
                     std::vector<char> Buffer(Size + 1);
                     Size = wcstombs_l(Buffer.data(), String, Buffer.size(), Locale);
-                    if (Size != -1) 
+                    if (Size != static_cast<size_t>(-1)) 
                     {
                         Buffer[Size] = '\0';
                         ReturnString = std::string(Buffer.data());
@@ -63,11 +63,11 @@ namespace IEUtils
             }
 #elif defined (__linux__)
             Size = wcstombs(nullptr, String, 0);
-            if (Size != -1) 
+            if (Size != static_cast<size_t>(-1)) 
             {
                 std::vector<char> Buffer(Size + 1);
                 Size = wcstombs(Buffer.data(), String, Buffer.size());
-                if (Size != -1) 
+                if (Size != static_cast<size_t>(-1)) 
                 {
                     Buffer[Size] = '\0';
                     ReturnString = std::string(Buffer.data());
@@ -98,11 +98,11 @@ namespace IEUtils
             if (const locale_t Locale = newlocale(LC_ALL_MASK, "en_US.UTF-8", nullptr)) 
             {
                 Size = mbsrtowcs_l(nullptr, &String, 0, &State, Locale);
-                if (Size != -1) 
+                if (Size != static_cast<size_t>(-1)) 
                 {
                     std::vector<wchar_t> Buffer(Size + 1);
                     Size = mbsrtowcs_l(Buffer.data(), &String, Buffer.size(), &State, Locale);
-                    if (Size != -1) 
+                    if (Size != static_cast<size_t>(-1)) 
                     {
                         Buffer[Size] = L'\0';
                         ReturnString.assign(Buffer.data(), Size);
@@ -112,11 +112,11 @@ namespace IEUtils
             }
 #elif defined (__linux__)
             Size = mbsrtowcs(nullptr, &String, 0, &State);
-            if (Size != -1) 
+            if (Size != static_cast<size_t>(-1)) 
             {
                 std::vector<wchar_t> Buffer(Size + 1);
                 Size = mbsrtowcs(Buffer.data(), &String, Buffer.size(), &State);
-                if (Size != -1) 
+                if (Size != static_cast<size_t>(-1)) 
                 {
                     Buffer[Size] = L'\0';
                     ReturnString.assign(Buffer.data(), Size);
