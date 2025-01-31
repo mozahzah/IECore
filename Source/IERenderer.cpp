@@ -13,7 +13,7 @@ extern void ShowRunningInBackgroundWin32Notification(const IERenderer* Renderer)
 #elif defined (__APPLE__)
 extern "C" void InitializeIEAppleApp(IERenderer * Renderer);
 extern "C" void ShowRunningInBackgroundAppleNotification(const IERenderer* Renderer);
-#elif defined (__Linux__)
+#elif defined (__linux__)
 #endif
 
 void IERenderer::PostWindowCreated()
@@ -47,6 +47,7 @@ void IERenderer::PostWindowCreated()
     InitializeIEWin32App(this);
 #elif defined (__APPLE__)
     InitializeIEAppleApp(this);
+#elif defined (__linux__)
 #endif
 }
 
