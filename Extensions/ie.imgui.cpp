@@ -267,10 +267,10 @@ namespace ImGui
             ImGuiIO& IO = ImGui::GetIO();
             IO.IniFilename = nullptr;
 
-            std::filesystem::path ResourcesDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "Resources");
+            std::filesystem::path ResourcesDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "IECore/Resources");
             if (ResourcesDirectory.empty())
             {
-                ResourcesDirectory = IEUtils::FindFolderPathDownwards(std::filesystem::current_path(), "Resources");
+                ResourcesDirectory = IEUtils::FindFolderPathDownwards(std::filesystem::current_path(), "IECore/Resources");
             }
             
             if (!ResourcesDirectory.empty())
