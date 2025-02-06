@@ -267,23 +267,23 @@ namespace ImGui
             ImGuiIO& IO = ImGui::GetIO();
             IO.IniFilename = nullptr;
 
-            std::filesystem::path ResourcesDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "IECore/Resources");
-            if (ResourcesDirectory.empty())
+            std::filesystem::path FontsDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "Resources/Fonts");
+            if (FontsDirectory.empty())
             {
-                ResourcesDirectory = IEUtils::FindFolderPathDownwards(std::filesystem::current_path(), "IECore/Resources");
+                FontsDirectory = IEUtils::FindFolderPathDownwards(std::filesystem::current_path(), "Resources/Fonts");
             }
             
-            if (!ResourcesDirectory.empty())
+            if (!FontsDirectory.empty())
             {
-                IELOG_SUCCESS("Found Resources Directory %s", ResourcesDirectory.c_str());
+                IELOG_SUCCESS("Found Fonts Directory %s", FontsDirectory.c_str());
 
                 ImFontConfig FontConfig;
                 FontConfig.OversampleH = 3;
                 FontConfig.OversampleV = 3;
 
-                const std::filesystem::path DefaultFontPath = ResourcesDirectory / "Fonts/Montserrat/static/Montserrat-Medium.ttf";
-                const std::filesystem::path BoldFontPath = ResourcesDirectory / "Fonts/Montserrat/static/Montserrat-SemiBold.ttf";
-                const std::filesystem::path TitleFontPath = ResourcesDirectory / "Fonts/Montserrat/static/Montserrat-Bold.ttf";
+                const std::filesystem::path DefaultFontPath = FontsDirectory / "Montserrat/static/Montserrat-Medium.ttf";
+                const std::filesystem::path BoldFontPath = FontsDirectory / "Montserrat/static/Montserrat-SemiBold.ttf";
+                const std::filesystem::path TitleFontPath = FontsDirectory / "Montserrat/static/Montserrat-Bold.ttf";
 
                 if (std::filesystem::exists(DefaultFontPath) && !DefaultFontIndex.has_value())
                 {

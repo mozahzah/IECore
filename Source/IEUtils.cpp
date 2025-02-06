@@ -10,56 +10,53 @@ namespace IEUtils
 
     std::filesystem::path FindFolderPathDownwards(const std::filesystem::path& SearchDirectory, const std::filesystem::path& FolderName)
     {
-        const std::filesystem::path& SanitizedFolderName(FolderName);
-        std::filesystem::path CurrentPath(SearchDirectory);
-        if (std::filesystem::exists(CurrentPath) && std::filesystem::is_directory(CurrentPath))
+        if (!std::filesystem::is_directory(SearchDirectory))
         {
-            std::stack<std::filesystem::path> Directories;
-            Directories.push(CurrentPath);
+            return std::filesystem::path();
+        }
 
-            while (!Directories.empty())
+        const std::filesystem::path& TargetPath = SearchDirectory / FolderName;
+        if (std::filesystem::is_directory(TargetPath))
+        {
+            return TargetPath;
+        }
+
+        for (const std::filesystem::directory_entry& Entry : std::filesystem::directory_iterator(SearchDirectory))
+        {
+            const std::filesystem::path& ChildPath = Entry.path();
+            if (std::filesystem::is_directory(ChildPath))
             {
-                for (const std::filesystem::directory_entry& Entry : std::filesystem::directory_iterator(Directories.top()))
+                const std::filesystem::path& TargetPath = FindFolderPathDownwards(ChildPath, FolderName);
+                if (!TargetPath.empty())
                 {
-                    if (Entry.is_directory())
-                    {
-                        const std::filesystem::path& EntryPath = Entry.path();
-                        if (EntryPath.string().ends_with(SanitizedFolderName.string()))
-                        {
-                            return EntryPath;
-                        }
-                        Directories.push(EntryPath);
-                    }
+                    return TargetPath;
                 }
-                Directories.pop();
             }
         }
+
         return std::filesystem::path();
     }
 
     std::filesystem::path FindFolderPathUpwards(const std::filesystem::path& SearchDirectory, const std::filesystem::path& FolderName)
     {
-        const std::filesystem::path& SanitizedFolderName(FolderName);
-        std::filesystem::path CurrentPath(SearchDirectory);
-        if (std::filesystem::exists(CurrentPath) && std::filesystem::is_directory(CurrentPath))
+        if (!std::filesystem::is_directory(SearchDirectory))
         {
-            while (CurrentPath != CurrentPath.parent_path())
-            {
-                for (const std::filesystem::directory_entry& Entry : std::filesystem::directory_iterator(CurrentPath))
-                {
-                    if (std::filesystem::is_directory(Entry))
-                    {
-                        const std::filesystem::path& EntryPath = Entry.path();
-                        if (EntryPath.string().ends_with(SanitizedFolderName.string()))
-                        {
-                            return EntryPath;
-                        }
-                    }
-                }
-                CurrentPath = CurrentPath.parent_path();
-            }
+            return std::filesystem::path();
         }
-        return std::filesystem::path();
+
+        const std::filesystem::path& TargetPath = SearchDirectory / FolderName;
+        if (std::filesystem::is_directory(TargetPath))
+        {
+            return TargetPath;
+        }
+
+        const std::filesystem::path& ParentPath = SearchDirectory.parent_path();
+        if (ParentPath == SearchDirectory)
+        {
+            return std::filesystem::path();
+        }
+
+        return FindFolderPathUpwards(ParentPath, FolderName);
     }
 
     std::filesystem::path GetIEConfigFolderPath()
