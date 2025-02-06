@@ -265,44 +265,53 @@ namespace ImGui
         void StyleIE(ImGuiStyle* StyleDestination)
         {
             ImGuiIO& IO = ImGui::GetIO();
-        
-            const std::filesystem::path ResourcesDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "Resources");
             IO.IniFilename = nullptr;
 
-            ImFontConfig FontConfig;
-            FontConfig.OversampleH = 3;
-            FontConfig.OversampleV = 3;
-
-            const std::filesystem::path DefaultFontPath = ResourcesDirectory / "Fonts/Montserrat/static/Montserrat-Medium.ttf";
-            const std::filesystem::path BoldFontPath = ResourcesDirectory / "Fonts/Montserrat/static/Montserrat-SemiBold.ttf";
-            const std::filesystem::path TitleFontPath = ResourcesDirectory / "Fonts/Montserrat/static/Montserrat-Bold.ttf";
-
-            if (std::filesystem::exists(DefaultFontPath) && !DefaultFontIndex.has_value())
+            std::filesystem::path ResourcesDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "Resources");
+            if (ResourcesDirectory.empty())
             {
-                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(DefaultFontPath.c_str()).c_str(), DefaultTextSize, &FontConfig);
-                DefaultFontIndex = IO.Fonts->Fonts.size() - 1;
+                ResourcesDirectory = IEUtils::FindFolderPathDownwards(std::filesystem::current_path(), "Resources");
             }
-
-            if (std::filesystem::exists(BoldFontPath) && !BoldFontIndex.has_value())
+            
+            if (!ResourcesDirectory.empty())
             {
-                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(BoldFontPath.c_str()).c_str(), DefaultTextSize, &FontConfig);
-                BoldFontIndex = IO.Fonts->Fonts.size() - 1;
-            }
+                IELOG_SUCCESS("Found Resources Directory %s", ResourcesDirectory.c_str());
 
-            if (std::filesystem::exists(BoldFontPath) && !SubtitleFontIndex.has_value())
-            {
-                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(BoldFontPath.c_str()).c_str(), SubtitleTextSize, &FontConfig);
-                SubtitleFontIndex = IO.Fonts->Fonts.size() - 1;
-            }
+                ImFontConfig FontConfig;
+                FontConfig.OversampleH = 3;
+                FontConfig.OversampleV = 3;
 
-            if (std::filesystem::exists(TitleFontPath) && !TitleFontIndex.has_value())
-            {
-                IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(TitleFontPath.c_str()).c_str(), TitleTextSize, &FontConfig);
-                TitleFontIndex = IO.Fonts->Fonts.size() - 1;
-            }
+                const std::filesystem::path DefaultFontPath = ResourcesDirectory / "Fonts/Montserrat/static/Montserrat-Medium.ttf";
+                const std::filesystem::path BoldFontPath = ResourcesDirectory / "Fonts/Montserrat/static/Montserrat-SemiBold.ttf";
+                const std::filesystem::path TitleFontPath = ResourcesDirectory / "Fonts/Montserrat/static/Montserrat-Bold.ttf";
 
-            IO.Fonts->Build();
-            IO.FontGlobalScale = 0.7f;
+                if (std::filesystem::exists(DefaultFontPath) && !DefaultFontIndex.has_value())
+                {
+                    IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(DefaultFontPath.c_str()).c_str(), DefaultTextSize, &FontConfig);
+                    DefaultFontIndex = IO.Fonts->Fonts.size() - 1;
+                }
+
+                if (std::filesystem::exists(BoldFontPath) && !BoldFontIndex.has_value())
+                {
+                    IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(BoldFontPath.c_str()).c_str(), DefaultTextSize, &FontConfig);
+                    BoldFontIndex = IO.Fonts->Fonts.size() - 1;
+                }
+
+                if (std::filesystem::exists(BoldFontPath) && !SubtitleFontIndex.has_value())
+                {
+                    IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(BoldFontPath.c_str()).c_str(), SubtitleTextSize, &FontConfig);
+                    SubtitleFontIndex = IO.Fonts->Fonts.size() - 1;
+                }
+
+                if (std::filesystem::exists(TitleFontPath) && !TitleFontIndex.has_value())
+                {
+                    IO.Fonts->AddFontFromFileTTF(IEUtils::StringCast<char>(TitleFontPath.c_str()).c_str(), TitleTextSize, &FontConfig);
+                    TitleFontIndex = IO.Fonts->Fonts.size() - 1;
+                }
+
+                IO.Fonts->Build();
+                IO.FontGlobalScale = 0.7f;
+            }
 
             if (ImGuiStyle* const Style = StyleDestination ? StyleDestination : &ImGui::GetStyle())
             {

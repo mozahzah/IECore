@@ -19,7 +19,7 @@ namespace IEUtils
 
             while (!Directories.empty())
             {
-                for (const std::filesystem::directory_entry& Entry : std::filesystem::directory_iterator(CurrentPath))
+                for (const std::filesystem::directory_entry& Entry : std::filesystem::directory_iterator(Directories.top()))
                 {
                     if (Entry.is_directory())
                     {
