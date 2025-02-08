@@ -23,10 +23,13 @@
 class IERenderer
 {
 public:
+    using IEWindowCallbackFunc = std::function<void(uint32_t WindowID)>;
+
+public:
     virtual ~IERenderer() = default;
 
 public:
-    virtual IEResult Initialize(const std::string& AppName, bool bAllowBackgroundRun = false) = 0;
+    virtual IEResult Initialize(const std::string& AppName, bool bAllowRunInBackground = false) = 0;
     virtual IEResult PostImGuiContextCreated() = 0;
     virtual void Deinitialize() = 0;
     virtual int32_t FlushGPUCommandsAndWait() = 0;
@@ -48,20 +51,34 @@ public:
     bool IsAppRunning() const;
     bool IsAppWindowOpen() const;
     bool IsAppWindowMinimized() const;
+    bool SupportsRunInBackground() const;
+
+    void OnAppWindowCloseRequested();
+    void OnAppWindowMinimizeRequested() const;
+    void OnAppWindowRestoreRequested() const;
 
     void CloseAppWindow();
+    void MinimizeAppWindow() const;
     void RestoreAppWindow() const;
-    void AddOnWindowCloseCallbackFunc(const std::function<void(uint32_t, void*)>& Func, void* UserData);
-    void AddOnWindowRestoreCallbackFunc(const std::function<void(uint32_t WindowID, void* UserData)>& Func, void* UserData);
+
+    void AddOnWindowCloseCallbackFunc(uint32_t WindowID, const IEWindowCallbackFunc& Func);
+    void AddOnWindowMinimizeCallbackFunc(uint32_t WindowID, const IEWindowCallbackFunc& Func);
+    void AddOnWindowRestoreCallbackFunc(uint32_t WindowID, const IEWindowCallbackFunc& Func);
+
+private:
+    void InitializeOSApp();
+    void NotifyOSRunInBackground() const;
 
 public:
-    GLFWwindow* GetGLFWwindow() const { return m_AppWindow; }
+    GLFWwindow* GetAppGLFWwindow() const { return m_AppWindow; }
     const std::string& GetAppName() const { return m_AppName; }
+    uint32_t GetAppWindowID() const;
     std::string GetIELogoPathString() const;
     void DrawTelemetry() const;
 
 private:
     void BroadcastOnWindowClosed() const;
+    void BroadcastOnWindowMinimized() const;
     void BroadcastOnWindowRestored() const;
 
 protected:
@@ -69,11 +86,12 @@ protected:
     std::string m_AppName;
     int32_t m_DefaultAppWindowWidth = 1280;
     int32_t m_DefaultAppWindowHeight = 720;
-    bool m_bAllowBackgroundRun = false;
+    bool m_bAllowRunInBackground = false;
 
 private:
-    std::vector<std::pair<void*, std::function<void(uint32_t, void*)>>> m_OnWindowCloseCallbackFunc;
-    std::vector<std::pair<void*, std::function<void(uint32_t, void*)>>> m_OnWindowRestoreCallbackFunc;
+    std::vector<std::pair<uint32_t, IEWindowCallbackFunc>> m_OnWindowCloseCallbackFunc;
+    std::vector<std::pair<uint32_t, IEWindowCallbackFunc>> m_OnWindowMinimizeCallbackFunc;
+    std::vector<std::pair<uint32_t, IEWindowCallbackFunc>> m_OnWindowRestoreCallbackFunc;
 
 private:
     bool m_ExitRequested = false; 
@@ -83,7 +101,7 @@ class IERenderer_Vulkan : public IERenderer
 {
 public:
     /* Begin IERenderer Implementation */
-    IEResult Initialize(const std::string& AppName, bool bAllowBackgroundRun = false) override;
+    IEResult Initialize(const std::string& AppName, bool bAllowRunInBackground = false) override;
     IEResult PostImGuiContextCreated() override;
     void Deinitialize() override;
     int32_t FlushGPUCommandsAndWait() override;

@@ -78,7 +78,7 @@ extern void InitializeIEWin32App(IERenderer* Renderer)
 {
     if (Renderer)
     {
-        const HWND Win32Window = glfwGetWin32Window(Renderer->GetGLFWwindow());
+        const HWND Win32Window = glfwGetWin32Window(Renderer->GetAppGLFWwindow());
 
         const BOOL bDarkMode = TRUE;
         DwmSetWindowAttribute(Win32Window, DWMWA_USE_IMMERSIVE_DARK_MODE, &bDarkMode, sizeof(bDarkMode));
@@ -110,7 +110,7 @@ extern void ShowRunningInBackgroundWin32Notification(const IERenderer* Renderer)
 {
     if (Renderer)
     {
-        const HWND Win32Window = glfwGetWin32Window(Renderer->GetGLFWwindow());
+        const HWND Win32Window = glfwGetWin32Window(Renderer->GetAppGLFWwindow());
 
         NOTIFYICONDATA NotificationBalloonData = {};
         NotificationBalloonData.cbSize = sizeof(NOTIFYICONDATA);
