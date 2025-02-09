@@ -60,14 +60,11 @@ public:
     void CloseAppWindow();
     void MinimizeAppWindow() const;
     void RestoreAppWindow() const;
+    void NotifyOSRunInBackground() const;
 
     void AddOnWindowCloseCallbackFunc(uint32_t WindowID, const IEWindowCallbackFunc& Func);
     void AddOnWindowMinimizeCallbackFunc(uint32_t WindowID, const IEWindowCallbackFunc& Func);
     void AddOnWindowRestoreCallbackFunc(uint32_t WindowID, const IEWindowCallbackFunc& Func);
-
-private:
-    void InitializeOSApp();
-    void NotifyOSRunInBackground() const;
 
 public:
     GLFWwindow* GetAppGLFWwindow() const { return m_AppWindow; }
@@ -77,10 +74,11 @@ public:
     void DrawTelemetry() const;
 
 private:
+    void InitializeOSApp();
     void BroadcastOnWindowClosed() const;
     void BroadcastOnWindowMinimized() const;
     void BroadcastOnWindowRestored() const;
-
+    
 protected:
     GLFWwindow* m_AppWindow = nullptr;
     std::string m_AppName;

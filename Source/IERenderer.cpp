@@ -179,6 +179,17 @@ void IERenderer::RestoreAppWindow() const
     }
 }
 
+void IERenderer::NotifyOSRunInBackground() const
+{
+#if defined (_WIN32)
+            ShowRunningInBackgroundWin32Notification(this);
+#elif defined (__APPLE__)
+            ShowRunningInBackgroundAppleNotification(this);
+#elif defined (__linux__)
+            ShowRunningInBackgroundLinuxNotification(this);
+#endif
+}
+
 void IERenderer::AddOnWindowCloseCallbackFunc(uint32_t WindowID, const IEWindowCallbackFunc& Func)
 {
     m_OnWindowCloseCallbackFunc.emplace_back(std::make_pair(WindowID, Func));
@@ -192,52 +203,6 @@ void IERenderer::AddOnWindowMinimizeCallbackFunc(uint32_t WindowID, const IEWind
 void IERenderer::AddOnWindowRestoreCallbackFunc(uint32_t WindowID, const IEWindowCallbackFunc& Func)
 {
     m_OnWindowRestoreCallbackFunc.emplace_back(std::make_pair(WindowID, Func));
-}
-
-void IERenderer::BroadcastOnWindowClosed() const
-{
-    for (const std::pair<uint32_t, IEWindowCallbackFunc>& Element : m_OnWindowCloseCallbackFunc)
-    {
-        Element.second(Element.first);
-    }
-}
-
-void IERenderer::BroadcastOnWindowMinimized() const
-{
-    for (const std::pair<uint32_t, IEWindowCallbackFunc>& Element : m_OnWindowMinimizeCallbackFunc)
-    {
-        Element.second(Element.first);
-    }
-}
-
-void IERenderer::BroadcastOnWindowRestored() const
-{
-    for (const std::pair<uint32_t, IEWindowCallbackFunc>& Element : m_OnWindowRestoreCallbackFunc)
-    {
-        Element.second(Element.first);
-    }
-}
-
-void IERenderer::InitializeOSApp()
-{
-#if defined (_WIN32)
-    InitializeIEWin32App(this);
-#elif defined (__APPLE__)
-    InitializeIEAppleApp(this);
-#elif defined (__linux__)
-    InitializeIELinuxApp(this);
-#endif
-}
-
-void IERenderer::NotifyOSRunInBackground() const
-{
-#if defined (_WIN32)
-            ShowRunningInBackgroundWin32Notification(this);
-#elif defined (__APPLE__)
-            ShowRunningInBackgroundAppleNotification(this);
-#elif defined (__linux__)
-            ShowRunningInBackgroundLinuxNotification(this);
-#endif
 }
 
 uint32_t IERenderer::GetAppWindowID() const
@@ -270,6 +235,41 @@ void IERenderer::DrawTelemetry() const
     ImGui::Begin("Telemetry", nullptr, TelemetryWindowFlags);
     ImGui::Text("Frame Duration (ms): %.2f | FPS: %.0f", 1000.0f / IO.Framerate, IO.Framerate);
     ImGui::End();
+}
+
+void IERenderer::InitializeOSApp()
+{
+#if defined (_WIN32)
+    InitializeIEWin32App(this);
+#elif defined (__APPLE__)
+    InitializeIEAppleApp(this);
+#elif defined (__linux__)
+    InitializeIELinuxApp(this);
+#endif
+}
+
+void IERenderer::BroadcastOnWindowClosed() const
+{
+    for (const std::pair<uint32_t, IEWindowCallbackFunc>& Element : m_OnWindowCloseCallbackFunc)
+    {
+        Element.second(Element.first);
+    }
+}
+
+void IERenderer::BroadcastOnWindowMinimized() const
+{
+    for (const std::pair<uint32_t, IEWindowCallbackFunc>& Element : m_OnWindowMinimizeCallbackFunc)
+    {
+        Element.second(Element.first);
+    }
+}
+
+void IERenderer::BroadcastOnWindowRestored() const
+{
+    for (const std::pair<uint32_t, IEWindowCallbackFunc>& Element : m_OnWindowRestoreCallbackFunc)
+    {
+        Element.second(Element.first);
+    }
 }
 
 IEResult IERenderer_Vulkan::Initialize(const std::string& AppName, bool bAllowRunInBackground)
