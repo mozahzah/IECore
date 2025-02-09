@@ -18,6 +18,7 @@ extern "C" void ShowRunningInBackgroundAppleNotification(const IERenderer* Rende
 #elif defined (__linux__)
 extern void InitializeIELinuxApp(IERenderer* Renderer);
 extern void ShowRunningInBackgroundLinuxNotification(const IERenderer* Renderer);
+#define OS_SUPPORT_RUN_IN_BACKGROUND 0
 #else
 #define OS_SUPPORT_RUN_IN_BACKGROUND 0
 #endif
