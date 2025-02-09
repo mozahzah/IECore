@@ -1,6 +1,6 @@
 [submodule "ThirdParty/imgui"]
 	path = ThirdParty/imgui
-	url = https://github.com/mozahzah/imgui.git
+	url = https://github.com/Interactive-Echoes/imgui.git
 	branch = master
 [submodule "ThirdParty/stb"]
 	path = ThirdParty/stb
