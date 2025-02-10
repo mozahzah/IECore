@@ -65,6 +65,10 @@ void IERenderer::PostWindowCreated()
         glfwSetWindowIcon(m_AppWindow, 1, &IconImage);
         stbi_image_free(IconPixelData);
     }
+    else
+    {
+        IELOG_ERROR(stbi_failure_reason());
+    }
 
     InitializeOSApp();
 }
@@ -214,7 +218,7 @@ uint32_t IERenderer::GetAppWindowID() const
 std::string IERenderer::GetIELogoPathString() const
 {
     const std::filesystem::path& ResourcesDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "Resources");
-    const std::filesystem::path& IELogoPath = ResourcesDirectory / "IE-Brand-Kit/IE-Logo-NoBg.png";
+    const std::filesystem::path& IELogoPath = ResourcesDirectory / "IE-Brand-Kit/IE-Logo-NoBg-64.png";
     return IELogoPath.string();
 }
 
@@ -280,10 +284,10 @@ IEResult IERenderer_Vulkan::Initialize(const std::string& AppName, bool bAllowRu
     if (glfwInit() && glfwVulkanSupported())
     {
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-        m_AppWindow = glfwCreateWindow(m_DefaultAppWindowWidth, m_DefaultAppWindowHeight, "Interactive Echoes", nullptr, nullptr);
+        m_AppName = AppName;
+        m_AppWindow = glfwCreateWindow(m_DefaultAppWindowWidth, m_DefaultAppWindowHeight, m_AppName.c_str(), nullptr, nullptr);
         if (m_AppWindow)
         {
-            m_AppName = AppName;
             m_bAllowRunInBackground = bAllowRunInBackground && OS_SUPPORT_RUN_IN_BACKGROUND;
             PostWindowCreated();
             if (InitializeVulkan())
