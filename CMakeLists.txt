@@ -21,8 +21,11 @@ message("System name: ${CMAKE_SYSTEM_NAME}")
 message("System version: ${CMAKE_SYSTEM_VERSION}")
 message("System processor: ${CMAKE_SYSTEM_PROCESSOR}")
 
+message("Including Third Party Libraries")
 find_package(Vulkan REQUIRED)
-find_package(glfw3 REQUIRED)
+add_subdirectory(ThirdParty/glfw)
+add_library(stb INTERFACE)
+target_include_directories(stb INTERFACE ThirdParty/stb)
 
 message("Gathering ${CMAKE_SYSTEM_NAME} specific files")
 if (WIN32)
@@ -49,14 +52,11 @@ list(APPEND IECore_SOURCE_FILES ${IMPL_FILE} ${EXTENSION_FILES})
 
 message("Creating Library and setting compile time definitions")
 add_library(${PROJECT_NAME} SHARED ${IECore_SOURCE_FILES} ${IMGUI_FILES} ${IMGUI_VULKAN_FILES} ${IMGUI_GLFW_FILES})
-target_link_libraries(${PROJECT_NAME} PUBLIC Vulkan::Vulkan glfw)
+target_link_libraries(${PROJECT_NAME} PUBLIC Vulkan::Vulkan glfw stb)
 target_include_directories(${PROJECT_NAME} PUBLIC "." ${IMGUI_DIR})
 file(GLOB IECore_HEADER_FILES "IECore.h")
 set_property(TARGET ${PROJECT_NAME} PROPERTY PUBLIC_HEADER ${IECore_HEADER_FILES})
 target_compile_definitions(${PROJECT_NAME} PRIVATE IERESOURCES_DIR="${CMAKE_INSTALL_PREFIX}/IE/Resources")
-
-message("Including Third Party Libraries")
-target_include_directories(${PROJECT_NAME} PUBLIC ThirdParty/stb)
 
 message("Linking ${CMAKE_SYSTEM_NAME} specific libraries")
 if(WIN32)

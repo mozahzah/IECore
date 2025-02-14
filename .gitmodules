@@ -6,3 +6,6 @@
 	path = ThirdParty/stb
 	url = https://github.com/nothings/stb.git
 	branch = master
+[submodule "ThirdParty/glfw"]
+	path = ThirdParty/glfw
+	url = https://github.com/glfw/glfw.git
