@@ -80,3 +80,7 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 Makefile
+
+#flatpak
+.flatpak-builder/
+build-dir/
