@@ -82,5 +82,5 @@ CTestTestfile.cmake
 Makefile
 
 #flatpak
-.flatpak-builder/
-build-dir/
+.flatpak-builder
+build-dir
