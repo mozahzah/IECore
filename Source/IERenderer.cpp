@@ -217,8 +217,7 @@ uint32_t IERenderer::GetAppWindowID() const
 
 std::string IERenderer::GetIELogoPathString() const
 {
-    const std::filesystem::path& ResourcesDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "Resources");
-    const std::filesystem::path& IELogoPath = ResourcesDirectory / "IE-Brand-Kit/IE-Logo-NoBg-64.png";
+    const std::filesystem::path& IELogoPath = IEUtils::GetIEResourceFolderPath() / "IE-Brand-Kit/IE-Logo-NoBg-64.png";
     return IELogoPath.string();
 }
 

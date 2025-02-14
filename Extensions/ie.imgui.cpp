@@ -89,8 +89,6 @@ namespace ImGui
         va_end(Args);
     }
 
-    
-
     void FileFinder(const char* Label, int Depth, std::string& SelectedFile)
     {
         static bool bFileFinderOpen = false;
@@ -267,16 +265,9 @@ namespace ImGui
             ImGuiIO& IO = ImGui::GetIO();
             IO.IniFilename = nullptr;
 
-            std::filesystem::path FontsDirectory = IEUtils::FindFolderPathUpwards(std::filesystem::current_path(), "Resources/Fonts");
-            if (FontsDirectory.empty())
+            const std::filesystem::path FontsDirectory = std::filesystem::path(IERESOURCES_DIR) / "Fonts";
+            if (!FontsDirectory.empty() && std::filesystem::is_directory(FontsDirectory))
             {
-                FontsDirectory = IEUtils::FindFolderPathDownwards(std::filesystem::current_path(), "Resources/Fonts");
-            }
-            
-            if (!FontsDirectory.empty())
-            {
-                IELOG_SUCCESS("Found Fonts Directory %s", FontsDirectory.c_str());
-
                 ImFontConfig FontConfig;
                 FontConfig.OversampleH = 3;
                 FontConfig.OversampleV = 3;

@@ -4,6 +4,10 @@
 
 #include "IEUtils.h"
 
+#ifndef IERESOURCES_DIR
+#error "IERESOURCES_DIR is not defined!"
+#endif
+
 namespace IEUtils
 {
     /* Path Search Algorithms */
@@ -92,6 +96,11 @@ namespace IEUtils
 
         IELOG_ERROR("Failed to create IEConfig folder");
         return std::filesystem::path();
+    }
+
+    std::filesystem::path GetIEResourceFolderPath()
+    {
+        return std::filesystem::path(IERESOURCES_DIR);
     }
 
     bool IsFileHidden(const std::filesystem::path& Path)
