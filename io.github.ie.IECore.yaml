@@ -1,0 +1,21 @@
+id: io.github.ie.IECore
+branch: '1.0'
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+build-extension: false
+sdk: org.freedesktop.Sdk
+separate-locales: false
+modules:
+  - name: IECore
+    buildsystem: cmake
+    builddir: true
+    build-options:
+      prefix: /usr
+      config-opts:
+        - -DCMAKE_INSTALL_PREFIX=/app
+        - -DBUILD_SHARED_LIBS=ON
+        - -DCMAKE_BUILD_TYPE=Release
+    sources:
+      - type: git
+        url: https://github.com/Interactive-Echoes/IECore
+        branch: master
