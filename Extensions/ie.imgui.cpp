@@ -221,17 +221,23 @@ namespace ImGui
 
         ImVec2 GetSquareButtonSize()
         {
-            return ImVec2(ImGui::GetTextLineHeightWithSpacing() - 10.0f, ImGui::GetTextLineHeightWithSpacing() - 10.0f);
+            return ImVec2(ImGui::GetTextLineHeight(), ImGui::GetTextLineHeight());
         }
         
         bool DefaultButton(const char* Label)
         {
-            return ImGui::Button(Label, GetDefaultButtonSize());
+            ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(ImGui::GetStyle().FramePadding.x, 0.0f));
+            const bool Pressed = ImGui::ButtonEx(Label, GetDefaultButtonSize(), ImGuiButtonFlags_AlignTextBaseLine);
+            ImGui::PopStyleVar();
+            return Pressed;
         }
 
         bool SquareButton(const char* Label)
         {
-            return ImGui::Button(Label, GetSquareButtonSize());
+            ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(ImGui::GetStyle().FramePadding.x, 0.0f));
+            const bool Pressed = ImGui::ButtonEx(Label, GetSquareButtonSize(), ImGuiButtonFlags_AlignTextBaseLine);
+            ImGui::PopStyleVar();
+            return Pressed;
         }
 
         bool RedButton(const char* Label)
