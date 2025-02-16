@@ -20,6 +20,7 @@ message("Working environment")
 message("System name: ${CMAKE_SYSTEM_NAME}")
 message("System version: ${CMAKE_SYSTEM_VERSION}")
 message("System processor: ${CMAKE_SYSTEM_PROCESSOR}")
+include(GNUInstallDirs)
 
 message("Including Third Party Libraries")
 find_package(Vulkan REQUIRED)
@@ -85,7 +86,6 @@ elseif(LINUX)
 endif()
 
 message("Setting up install")
-SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 install(TARGETS ${PROJECT_NAME}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
