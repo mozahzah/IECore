@@ -3,8 +3,11 @@ branch: '1.0'
 runtime: org.freedesktop.Platform
 runtime-version: '24.08'
 build-extension: false
+build-runtime: true
 sdk: org.freedesktop.Sdk
 separate-locales: false
+finish-args:
+  - --socket=x11
 modules:
   - name: IECore
     buildsystem: cmake
