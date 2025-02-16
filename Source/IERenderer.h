@@ -4,7 +4,6 @@
 
 #pragma once
 
-#define GLFW_INCLUDE_VULKAN
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
 #endif
@@ -13,6 +12,10 @@
 #define GLFW_EXPOSE_NATIVE_WIN32 1
 #endif
 
+#ifndef GLFW_INCLUDE_NONE
+    #define GLFW_INCLUDE_NONE
+#endif
+#define GLFW_INCLUDE_VULKAN
 #include "GLFW/glfw3.h"
 #include "GLFW/glfw3native.h"
 #include "backends/imgui_impl_glfw.h"

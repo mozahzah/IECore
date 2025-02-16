@@ -23,6 +23,8 @@ message("System processor: ${CMAKE_SYSTEM_PROCESSOR}")
 
 message("Including Third Party Libraries")
 find_package(Vulkan REQUIRED)
+set(BUILD_SHARED_LIBS TRUE)
+set(GLFW_BUILD_WAYLAND FALSE)
 add_subdirectory(ThirdParty/glfw)
 add_library(stb INTERFACE)
 target_include_directories(stb INTERFACE ThirdParty/stb)
@@ -40,9 +42,9 @@ endif()
 message("Gathering imgui source files")
 set(IMGUI_DIR "ThirdParty/imgui")
 set(IMGUI_BACKENDS_DIR ${IMGUI_DIR}/backends)
-file(GLOB IMGUI_FILES ${IMGUI_DIR}/*.h ${IMGUI_DIR}/*.cpp)
-file(GLOB IMGUI_VULKAN_FILES ${IMGUI_BACKENDS_DIR}/*vulkan*.h ${IMGUI_BACKENDS_DIR}/*vulkan*.cpp)
-file(GLOB IMGUI_GLFW_FILES ${IMGUI_BACKENDS_DIR}/*glfw*.h ${IMGUI_BACKENDS_DIR}/*glfw*.cpp)
+file(GLOB IMGUI_SOURCE_FILES ${IMGUI_DIR}/*.cpp)
+file(GLOB IMGUI_VULKAN_SOURCE_FILES ${IMGUI_BACKENDS_DIR}/*vulkan*.cpp)
+file(GLOB IMGUI_GLFW_SOURCE_FILES ${IMGUI_BACKENDS_DIR}/*glfw*.cpp)
 
 message("Gathering source files")
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -51,12 +53,17 @@ file(GLOB IECore_SOURCE_FILES "Source/*.cpp")
 list(APPEND IECore_SOURCE_FILES ${IMPL_FILE} ${EXTENSION_FILES})
 
 message("Creating Library and setting compile time definitions")
-add_library(${PROJECT_NAME} SHARED ${IECore_SOURCE_FILES} ${IMGUI_FILES} ${IMGUI_VULKAN_FILES} ${IMGUI_GLFW_FILES})
+add_library(${PROJECT_NAME} STATIC 
+  ${IECore_SOURCE_FILES} 
+  ${IMGUI_SOURCE_FILES} 
+  ${IMGUI_VULKAN_SOURCE_FILES} 
+  ${IMGUI_GLFW_SOURCE_FILES})
+
 target_link_libraries(${PROJECT_NAME} PUBLIC Vulkan::Vulkan glfw stb)
 target_include_directories(${PROJECT_NAME} PUBLIC "." ${IMGUI_DIR})
 file(GLOB IECore_HEADER_FILES "IECore.h")
 set_property(TARGET ${PROJECT_NAME} PROPERTY PUBLIC_HEADER ${IECore_HEADER_FILES})
-target_compile_definitions(${PROJECT_NAME} PRIVATE IERESOURCES_DIR="${CMAKE_INSTALL_PREFIX}/IE/Resources")
+target_compile_definitions(${PROJECT_NAME} PRIVATE IERESOURCES_DIR="${CMAKE_INSTALL_PREFIX}/IE/Resources" GLFW_INCLUDE_NONE)
 
 message("Linking ${CMAKE_SYSTEM_NAME} specific libraries")
 if(WIN32)
