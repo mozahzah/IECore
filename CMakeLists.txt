@@ -95,6 +95,8 @@ install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Resources" DESTINATION "${CMAKE_I
 include(InstallRequiredSystemLibraries)
 
 message("Adding extra directories")
-add_subdirectory(Examples)
+if(IECORE_INCLUDE_EXAMPLES)
+  add_subdirectory(Examples)
+endif()
 
 message("------------------------------------------------------------\n")
